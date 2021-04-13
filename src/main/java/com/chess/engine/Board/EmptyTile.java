@@ -1,6 +1,6 @@
-package com.chess.engine.board;
+package com.chess.engine.Board;
 
-import com.chess.engine.pieces.Piece;
+import com.chess.engine.Pieces.Piece;
 
 /**
  * Class extends Tile that is Empty

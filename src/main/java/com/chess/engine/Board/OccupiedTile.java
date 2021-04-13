@@ -1,6 +1,6 @@
-package com.chess.engine.board;
+package com.chess.engine.Board;
 
-import com.chess.engine.pieces.Piece;
+import com.chess.engine.Pieces.Piece;
 
 /**
  * OccupiedTile is Tile that is occupied by Piece, is extends abstract class Tile
