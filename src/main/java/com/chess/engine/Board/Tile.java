@@ -6,14 +6,18 @@ import com.chess.engine.Pieces.Piece;
  * The abstract class Tile
  */
 public abstract class Tile {
-    int tileCoordinate;
+    int tileCoordinateX;
+    int tileCoordinateY;
+
 
     /**
-     * Standart constructor
-     * @param tileCoordinate coordinate of Tile
+     * Standart Constructor
+     * @param tileCoordinateX
+     * @param tileCoordinateY
      */
-    Tile(int tileCoordinate){
-        this.tileCoordinate = tileCoordinate;
+    Tile(int tileCoordinateX, int tileCoordinateY){
+        this.tileCoordinateX = tileCoordinateX;
+        this.tileCoordinateY = tileCoordinateY;
     }
 
     /**

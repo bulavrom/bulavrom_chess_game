@@ -10,11 +10,12 @@ public final class OccupiedTile extends Tile{
 
     /**
      * Standart Constructor
-     * @param tileCoordinate coordinate of Tile
-     * @param pieceOnTile piece on Tile
+     * @param tileCoordinateX
+     * @param tileCoordinateY
+     * @param pieceOnTile
      */
-    public OccupiedTile(int tileCoordinate, Piece pieceOnTile) {
-        super(tileCoordinate);
+    public OccupiedTile(int tileCoordinateX,int tileCoordinateY, Piece pieceOnTile) {
+        super(tileCoordinateX,tileCoordinateY);
         this.pieceOnTile = pieceOnTile;
     }
 
