@@ -1,26 +1,28 @@
 package com.chess.engine.Pieces;
 
+import com.chess.engine.Board.OccupiedTile;
 import com.chess.engine.Board.Tile;
 import com.chess.engine.Colour;
 import com.chess.engine.Move;
 import com.chess.engine.Board.Board;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Abstract class Piece ,from this class will be extended all Pieces
  */
 public abstract class Piece {
-    protected final Tile tile;
+    protected final int piecePosition;
     protected final Colour pieceColour;
 
     /**
-     * Standart constructor
-     * @param piecePosition position of Tile where Piece is located
-     * @param pieceColour Colour of Piece(Black or White)
+     * Standart Constructor
+     * @param piecePosition
+     * @param pieceColour
      */
-    public Piece(int tileCoordinateX, int tileCoordinateY, Colour pieceColour) {
-        this.tile = getTile(tileCoordinateX,tileCoordinateY);
+    public Piece(int piecePosition, Colour pieceColour) {
+        this.piecePosition = piecePosition;
         this.pieceColour = pieceColour;
     }
 
@@ -29,5 +31,9 @@ public abstract class Piece {
      * @param board board
      * @return returns List of Moves
      */
-    public abstract List<Move> calculateLegalMoves(final Board board);
+    public abstract Collection<Move> calculateLegalMoves(final Board board);
+
+    public Colour getPieceColour(){
+        return this.pieceColour;
+    }
 }

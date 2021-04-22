@@ -2,23 +2,48 @@ package com.chess.engine.Board;
 
 import com.chess.engine.Pieces.Piece;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The abstract class Tile
  */
 public abstract class Tile {
-    int tileCoordinateX;
-    int tileCoordinateY;
 
+    protected final int tileCoordinate;
+
+    private static final Map<Integer,EmptyTile> EMPTY_TILE_MAP = createEmptyTiles();
 
     /**
-     * Standart Constructor
-     * @param tileCoordinateX
-     * @param tileCoordinateY
+     * Method creates all empty tiles
+     * @return
      */
-    Tile(int tileCoordinateX, int tileCoordinateY){
-        this.tileCoordinateX = tileCoordinateX;
-        this.tileCoordinateY = tileCoordinateY;
+    private static Map<Integer, EmptyTile> createEmptyTiles(){
+        final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
+        for (int i = 0; i < 64; i++) {
+            emptyTileMap.put(i, new EmptyTile(i));
+        }
+        return emptyTileMap;
     }
+
+
+    public static Tile createTile(final int tileCoordinate, final Piece piece){
+        if(piece == null){
+            return EMPTY_TILE_MAP.get(tileCoordinate);
+        }
+        else {
+            return new OccupiedTile(tileCoordinate,piece);
+        }
+    }
+
+    /**
+     * Standart constructor
+     * @param tileCoordinate
+     */
+    Tile(int tileCoordinate){
+        this.tileCoordinate = tileCoordinate;
+    }
+
 
     /**
      * Method that return true if Tile is Occupied by Piece

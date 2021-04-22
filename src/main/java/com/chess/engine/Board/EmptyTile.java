@@ -8,11 +8,11 @@ import com.chess.engine.Pieces.Piece;
 public final class EmptyTile extends Tile{
 
     /**
-     * Standart Constructor
-     * @param coordinate coordinate of Tile
+     * Standart constructor
+     * @param tileCoordinate tile coordinate
      */
-    EmptyTile(int tileCoordinateX,int tileCoordinateY){
-        super(tileCoordinateX, tileCoordinateY);
+    EmptyTile(int tileCoordinate){
+        super(tileCoordinate);
     }
 
     /**
