@@ -1,9 +1,7 @@
 package com.chess.engine.Pieces;
 
-import com.chess.engine.Board.Tile;
+import com.chess.engine.Board.*;
 import com.chess.engine.Colour;
-import com.chess.engine.Move;
-import com.chess.engine.Board.Board;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,11 +40,11 @@ public class Knight extends Piece{
                     final Piece pieceOnCandidateTile = tileCandidate.getPiece();
                     final Colour candidatePieceColour = pieceOnCandidateTile.getPieceColour();
                     if (candidatePieceColour != this.pieceColour){
-                        legalMoves.add(new Move());
+                        legalMoves.add(new AttackMove(board,this, possibleMoveDestinitionCoordinate, pieceOnCandidateTile));
                     }
                 }
                 else {
-                    legalMoves.add(new Move());
+                    legalMoves.add(new StandartMove(board,this,possibleMoveDestinitionCoordinate));
                 }
 
             }

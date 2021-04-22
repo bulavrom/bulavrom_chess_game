@@ -1,7 +1,8 @@
 package com.chess.engine.Pieces;
 
+import com.chess.engine.Board.Move;
 import com.chess.engine.Colour;
-import com.chess.engine.Move;
+
 import com.chess.engine.Board.Board;
 
 import java.util.List;
