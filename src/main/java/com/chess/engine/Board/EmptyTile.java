@@ -11,8 +11,8 @@ public final class EmptyTile extends Tile{
      * Standart Constructor
      * @param coordinate coordinate of Tile
      */
-    EmptyTile(int tileCoordinateX,int tileCoordinateY){
-        super(tileCoordinateX, tileCoordinateY);
+    EmptyTile(int coordinate){
+        super(coordinate);
     }
 
     /**
