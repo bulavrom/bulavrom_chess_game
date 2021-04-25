@@ -15,36 +15,36 @@ public class Knight extends Piece{
     /**
      * Standart constructor
      *
-     * @param piecePosition position of Tile where Piece is located
-     * @param pieceColour   Colour of Piece(Black or White)
+     * @param piecePosition 1 Dimension coordinate on the board
+     * @param pieceColour Colour of Piece (Black or White)
      */
     public Knight(final int piecePosition, final Colour pieceColour) {
         super(piecePosition, pieceColour);
     }
 
     @Override
-    public Collection<Move> calculateLegalMoves(Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board) {
 
         final List<Move> legalMoves = new ArrayList<>();
-        int possibleMoveDestinitionCoordinate;
+        int possibleMoveDestinationCoordinate;
 
         for (final int offsetCandidate: possibleMovesOffsets) {
-            possibleMoveDestinitionCoordinate = this.piecePosition + offsetCandidate;
+            possibleMoveDestinationCoordinate = this.piecePosition + offsetCandidate;
 
-            if(possibleMoveDestinitionCoordinate >= 0  && possibleMoveDestinitionCoordinate < 64){
+            if(possibleMoveDestinationCoordinate >= 0  && possibleMoveDestinationCoordinate < 64){
                 if(coloumnExclusions(this.piecePosition, offsetCandidate)){
                     continue;
                 }
-                final Tile tileCandidate  = board.getTile(possibleMoveDestinitionCoordinate);
+                final Tile tileCandidate  = board.getTile(possibleMoveDestinationCoordinate);
                 if(tileCandidate.isTileOccupied()){
                     final Piece pieceOnCandidateTile = tileCandidate.getPiece();
                     final Colour candidatePieceColour = pieceOnCandidateTile.getPieceColour();
                     if (candidatePieceColour != this.pieceColour){
-                        legalMoves.add(new AttackMove(board,this, possibleMoveDestinitionCoordinate, pieceOnCandidateTile));
+                        legalMoves.add(new AttackMove(board,this, possibleMoveDestinationCoordinate, pieceOnCandidateTile));
                     }
                 }
                 else {
-                    legalMoves.add(new StandartMove(board,this,possibleMoveDestinitionCoordinate));
+                    legalMoves.add(new StandartMove(board,this,possibleMoveDestinationCoordinate));
                 }
 
             }

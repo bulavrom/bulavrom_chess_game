@@ -7,18 +7,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+public class Rook extends Piece{
 
-public class Bishop extends Piece {
-
-    private static final int[] possibleMovesOffsets = {-9, -7, 7, 9};
+    private static final int[] possibleMovesOffsets = {-8,-1,1,8};
 
     /**
-     * Standart constructor
+     * Standart Constructor
      *
-     * @param piecePosition position of Tile where Piece is located
-     * @param pieceColour   Colour of Piece(Black or White)
+     * @param piecePosition 1 Dimension coordinate on the board
+     * @param pieceColour   Colour of Piece (Black or White)
      */
-    public Bishop(int piecePosition, Colour pieceColour) {
+    public Rook(int piecePosition, Colour pieceColour) {
         super(piecePosition, pieceColour);
     }
 
@@ -63,11 +62,11 @@ public class Bishop extends Piece {
      */
     private static boolean coloumnExclusions(int piecePosition, int offsetCandidate) {
         //first coloumn exclusion
-        if (((piecePosition % 8) + 1 == 1) && ((offsetCandidate == -9) || (offsetCandidate == 7))) {
+        if (((piecePosition % 8) + 1 == 1) &&  (offsetCandidate == -1)) {
             return true;
         }
 
         //eight coloumn exclusion
-        return ((piecePosition % 8) + 1 == 8) && ((offsetCandidate == -7) || (offsetCandidate == 9));
+        return ((piecePosition % 8) + 1 == 8) &&  (offsetCandidate == 1);
     }
 }

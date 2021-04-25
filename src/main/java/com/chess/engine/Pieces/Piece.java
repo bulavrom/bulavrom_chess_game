@@ -18,8 +18,8 @@ public abstract class Piece {
 
     /**
      * Standart Constructor
-     * @param piecePosition
-     * @param pieceColour
+     * @param piecePosition 1 Dimension coordinate on the board
+     * @param pieceColour Colour of Piece (Black or White)
      */
     public Piece(int piecePosition, Colour pieceColour) {
         this.piecePosition = piecePosition;
