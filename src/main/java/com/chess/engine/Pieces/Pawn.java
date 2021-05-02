@@ -1,5 +1,6 @@
 package com.chess.engine.Pieces;
 
+import com.chess.engine.Board.AttackMove;
 import com.chess.engine.Board.Move;
 import com.chess.engine.Board.StandartMove;
 import com.chess.engine.Colour;
@@ -44,10 +45,40 @@ public class Pawn extends Piece{
 
             if (offsetCandidate == 8 && !board.getTile(possibleMoveDestinationCoordinate).isTileOccupied()){
                 legalMoves.add(new StandartMove(board, this, possibleMoveDestinationCoordinate));
+            }else if(offsetCandidate == 16 && this.isFirstMove() &&
+            isPawnOnStartPositionForBlack(this.piecePosition,this) ||
+            isPawnOnStartPositionForWhite(this.piecePosition,this)){
+                final int standartMoveDestinationCoordinate = this.piecePosition + direction * 8;
+                if (!board.getTile(standartMoveDestinationCoordinate).isTileOccupied() &&
+                    !board.getTile(possibleMoveDestinationCoordinate).isTileOccupied()){
+                    legalMoves.add(new StandartMove(board, this, possibleMoveDestinationCoordinate));
+                }
+            }else if (!coloumnAttackMoveExclusion(this.piecePosition,offsetCandidate,this)){
+                final Piece pieceOnCandidateTile = board.getTile(possibleMoveDestinationCoordinate).getPiece();
+                if (this.getPieceColour() != pieceOnCandidateTile.getPieceColour()){
+                    legalMoves.add(new AttackMove(board,this,possibleMoveDestinationCoordinate,pieceOnCandidateTile));
+                }
             }
-            //dopisat  !!!
+
         }
 
         return legalMoves;
+    }
+
+    private static boolean isPawnOnStartPositionForBlack(int piecePosition, Piece piece){
+        return piecePosition >= 8 && piecePosition <=15 && piece.getPieceColour().isBlack();
+    }
+
+    private static boolean isPawnOnStartPositionForWhite(int piecePosition, Piece piece){
+        return piecePosition >= 48 && piecePosition <=55 && piece.getPieceColour().isWhite();
+    }
+
+    private static boolean coloumnAttackMoveExclusion(int piecePosition, int offsetCandidate, Piece piece){
+        if (offsetCandidate == 7 && (((piecePosition % 8) + 1 == 8 && piece.getPieceColour().isWhite()) ||
+                                    ((piecePosition % 8) + 1 == 1 && piece.getPieceColour().isBlack()))){
+            return true;
+        }
+        return (offsetCandidate == 9 && (((piecePosition % 8) + 1 == 1 && piece.getPieceColour().isWhite()) ||
+                ((piecePosition % 8) + 1 == 8 && piece.getPieceColour().isBlack())));
     }
 }

@@ -1,30 +1,32 @@
-package com.chess.engine.Pieces;
+package com.chess.engine.Pieces.LinearPieces;
 
 import com.chess.engine.Board.*;
 import com.chess.engine.Colour;
+import com.chess.engine.Pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-public class Bishop extends Piece {
-
-    private static final int[] possibleMovesOffsets = {-9, -7, 7, 9};
+public abstract class LinearPiece extends Piece {
 
     /**
-     * Standart constructor
+     * Standart Constructor
      *
-     * @param piecePosition position of Tile where Piece is located
-     * @param pieceColour   Colour of Piece(Black or White)
+     * @param piecePosition 1 Dimension coordinate on the board
+     * @param pieceColour   Colour of Piece (Black or White)
      */
-    public Bishop(int piecePosition, Colour pieceColour) {
+    public LinearPiece(int piecePosition, Colour pieceColour) {
         super(piecePosition, pieceColour);
     }
 
-    @Override
-    public Collection<Move> calculateLegalMoves(final Board board) {
-
+    /**
+     * Pieces that moves linearly have simillar logic for calculate moves
+     * @param board
+     * @param possibleMovesOffsets
+     * @return
+     */
+    public Collection<Move> calculateLinearLegalMoves(Board board, int[] possibleMovesOffsets){
         final List<Move> legalMoves = new ArrayList<>();
         int possibleMoveDestinationCoordinate;
 
@@ -55,19 +57,13 @@ public class Bishop extends Piece {
     }
 
     /**
-     * Some offsets doesnt work correctly in 1,8 coloumns , this method detect these exclusions
+     * Some offsets doesnt work correctly in some coloumns positions , this method detect these exclusions
      *
      * @param piecePosition   pieceCoordination (is needed to detect coloumn)
      * @param offsetCandidate offset to control
      * @return true in case of exclusion
      */
-    private static boolean coloumnExclusions(int piecePosition, int offsetCandidate) {
-        //first coloumn exclusion
-        if (((piecePosition % 8) + 1 == 1) && ((offsetCandidate == -9) || (offsetCandidate == 7))) {
-            return true;
-        }
+    public abstract boolean coloumnExclusions(int piecePosition, int offsetCandidate);
 
-        //eight coloumn exclusion
-        return ((piecePosition % 8) + 1 == 8) && ((offsetCandidate == -7) || (offsetCandidate == 9));
-    }
+
 }
