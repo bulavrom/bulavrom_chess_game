@@ -4,6 +4,7 @@ import com.chess.engine.Colour;
 import com.chess.engine.Pieces.*;
 import com.chess.engine.Pieces.LinearPieces.*;
 import com.chess.engine.Player.BlackPlayer;
+import com.chess.engine.Player.Player;
 import com.chess.engine.Player.WhitePlayer;
 
 import java.util.*;
@@ -23,6 +24,10 @@ public final class Board {
     private final BlackPlayer blackPlayer;
 
 
+    /**
+     * Standart constructor of Board
+     * @param builder Builder of Board
+     */
     private Board(Builder builder){
         this.gameBoard = createGameBoard(builder);
         this.whitePieces = createListOfPieces(this.gameBoard, Colour.WHITE);
@@ -35,6 +40,12 @@ public final class Board {
         this.blackPlayer = new BlackPlayer(this, blackLegalMoves, whiteLegalMoves);
     }
 
+
+    /**
+     * Method that calculates and returns legal moves for all given pieces
+     * @param pieces pieces
+     * @return all legal moves for that pieces
+     */
     private Collection<Move> calculateColourLegalMoves(Collection<Piece> pieces) {
         final List<Move> legalMoves = new ArrayList<>();
         for (final Piece piece:pieces) {
@@ -43,6 +54,43 @@ public final class Board {
         return legalMoves;
     }
 
+
+    /**
+     * Method that returns black player
+     * @return black player
+     */
+    public Player getBlackPlayer(){
+        return this.blackPlayer;
+    }
+
+    /**
+     * Method that returns white player
+     * @return white player
+     */
+    public Player getWhitePlayer(){
+        return this.whitePlayer;
+    }
+
+    public Collection<Piece> getBlackActivePieces(){
+        return this.blackPieces;
+    }
+
+
+    /**
+     * Method that returns list of White pieces that are on the Board
+     * @return list of white pieces
+     */
+    public Collection<Piece> getWhiteActivePieces(){
+        return this.whitePieces;
+    }
+
+
+    /**
+     * Method that creates List Of Pieces for a given colour
+     * @param gameBoard actual Game Board
+     * @param colour colour of Pieces
+     * @return list of Pieces
+     */
     private static Collection<Piece> createListOfPieces(List<Tile> gameBoard, Colour colour) {
         final List<Piece> pieceList = new ArrayList<>();
         for (final Tile tile : gameBoard) {
@@ -55,10 +103,21 @@ public final class Board {
         return pieceList;
     }
 
+    /**
+     * Method that returns tile
+     * @param tileCoordinate 1 - dimensional coordinate of Tile
+     * @return tile that has tileCoordinate
+     */
     public Tile getTile(final int tileCoordinate) {
         return gameBoard.get(tileCoordinate);
     }
 
+
+    /**
+     * Method that creates Game Board with 64 Tiles
+     * @param builder Builder of Board
+     * @return list of Board's Tiles
+     */
     private static List<Tile> createGameBoard(final Builder builder){
         final Tile[] tiles = new Tile[64];
         for (int i = 0; i < 64; i++) {
@@ -68,6 +127,10 @@ public final class Board {
         return listOfTiles;
     }
 
+    /**
+     * Method that creates default Board with all pieces in default positions
+     * @return default board
+     */
     public static Board createDefaultBoard(){
         final Builder builder = new Builder();
         // Set black pieces on start-game Positions
@@ -111,6 +174,9 @@ public final class Board {
         return builder.build();
     }
 
+    /**
+     * Builder for Board
+     */
     public static class Builder{
 
         Map<Integer, Piece> boardConfig;

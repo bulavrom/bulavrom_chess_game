@@ -19,7 +19,8 @@ public class Knight extends Piece{
      * @param pieceColour Colour of Piece (Black or White)
      */
     public Knight(final int piecePosition, final Colour pieceColour) {
-        super(piecePosition, pieceColour);
+
+        super(PieceType.KNIGHT, piecePosition, pieceColour);
     }
 
     @Override

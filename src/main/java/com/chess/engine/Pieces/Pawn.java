@@ -20,7 +20,8 @@ public class Pawn extends Piece{
      * @param pieceColour   Colour of Piece(Black or White)
      */
     public Pawn(int piecePosition, Colour pieceColour) {
-        super(piecePosition, pieceColour);
+
+        super(PieceType.PAWN, piecePosition, pieceColour);
     }
 
     @Override

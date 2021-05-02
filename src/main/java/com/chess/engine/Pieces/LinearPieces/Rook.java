@@ -19,7 +19,8 @@ public class Rook extends LinearPiece{
      * @param pieceColour   Colour of Piece (Black or White)
      */
     public Rook(int piecePosition, Colour pieceColour) {
-        super(piecePosition, pieceColour);
+
+        super(PieceType.ROOK, piecePosition, pieceColour);
     }
 
     @Override

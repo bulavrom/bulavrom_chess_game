@@ -20,7 +20,8 @@ public class Queen extends LinearPiece{
      * @param pieceColour   Colour of Piece(Black or White)
      */
     public Queen(int piecePosition, Colour pieceColour) {
-        super(piecePosition, pieceColour);
+
+        super(PieceType.QUEEN, piecePosition, pieceColour);
     }
 
     @Override

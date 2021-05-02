@@ -13,11 +13,13 @@ public abstract class LinearPiece extends Piece {
     /**
      * Standart Constructor
      *
+     * @param pieceType type of Piece
      * @param piecePosition 1 Dimension coordinate on the board
      * @param pieceColour   Colour of Piece (Black or White)
      */
-    public LinearPiece(int piecePosition, Colour pieceColour) {
-        super(piecePosition, pieceColour);
+    public LinearPiece(PieceType pieceType,int piecePosition, Colour pieceColour) {
+
+        super(pieceType, piecePosition, pieceColour);
     }
 
     /**

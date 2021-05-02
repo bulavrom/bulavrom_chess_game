@@ -22,7 +22,8 @@ public class Bishop extends LinearPiece {
      * @param pieceColour   Colour of Piece(Black or White)
      */
     public Bishop(int piecePosition, Colour pieceColour) {
-        super(piecePosition, pieceColour);
+
+        super(PieceType.BISHOP, piecePosition, pieceColour);
     }
 
     @Override

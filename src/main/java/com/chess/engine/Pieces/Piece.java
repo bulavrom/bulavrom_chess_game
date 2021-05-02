@@ -12,17 +12,23 @@ import java.util.Collection;
  * Abstract class Piece ,from this class will be extended all Pieces
  */
 public abstract class Piece {
+    protected final PieceType pieceType;
     protected final int piecePosition;
     protected final Colour pieceColour;
+    protected final boolean isFirstMove;
 
     /**
      * Standart Constructor
+     *
+     * @param pieceType Type Of Piece
      * @param piecePosition 1 Dimension coordinate on the board
      * @param pieceColour Colour of Piece (Black or White)
      */
-    public Piece(int piecePosition, Colour pieceColour) {
+    public Piece(PieceType pieceType, int piecePosition, Colour pieceColour) {
+        this.pieceType = pieceType;
         this.piecePosition = piecePosition;
         this.pieceColour = pieceColour;
+        this.isFirstMove = false;
     }
 
     /**
@@ -32,15 +38,84 @@ public abstract class Piece {
      */
     public abstract Collection<Move> calculateLegalMoves(final Board board);
 
+
+    /**
+     * Method that returns Piece Colour
+     * @return Black if Piece is Black, White if Piece is White
+     */
     public Colour getPieceColour(){
         return this.pieceColour;
     }
 
+
+    /**
+     * Method that controls if is the first move for a piece
+     * @return true if its first move
+     */
     protected boolean isFirstMove(){
-        return false;
+        return this.isFirstMove;
     }
 
+
+    /**
+     * Method that returns 1 - dimensial Piece Position
+     * @return Piece Position
+     */
     public int getPiecePosition(){
         return this.piecePosition;
+    }
+
+    /**
+     * Method that returns Piece Type (All piece types are in enum)
+     * @return Piece Type
+     */
+    public PieceType getPieceType(){
+        return this.pieceType;
+    }
+
+
+    public enum PieceType{
+        PAWN{
+            @Override
+            public boolean isKing(){
+                return false;
+            }
+        },
+        KNIGHT {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        BISHOP {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        ROOK {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        QUEEN {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        KING {
+            @Override
+            public boolean isKing() {
+                return true;
+            }
+        };
+
+        /**
+         * Method that returns true if the Piece Type is King
+         * @return true if the PieceType is King
+         */
+        public abstract boolean isKing();
     }
 }

@@ -17,7 +17,8 @@ public class King extends Piece{
      * @param pieceColour   Colour of Piece(Black or White)
      */
     public King(int piecePosition, Colour pieceColour) {
-        super(piecePosition, pieceColour);
+
+        super(PieceType.KING, piecePosition, pieceColour);
     }
 
     @Override
