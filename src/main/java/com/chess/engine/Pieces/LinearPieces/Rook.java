@@ -18,9 +18,14 @@ public class Rook extends LinearPiece{
      * @param piecePosition 1 Dimension coordinate on the board
      * @param pieceColour   Colour of Piece (Black or White)
      */
-    public Rook(int piecePosition, Colour pieceColour) {
+    public Rook(final int piecePosition,final Colour pieceColour) {
 
         super(PieceType.ROOK, piecePosition, pieceColour);
+    }
+
+    @Override
+    public Piece movePiece(final Move move) {
+        return new Rook(move.getDestinationCoordinate(),move.getPieceToMove().getPieceColour());
     }
 
     @Override

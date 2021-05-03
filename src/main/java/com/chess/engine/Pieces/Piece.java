@@ -24,7 +24,7 @@ public abstract class Piece {
      * @param piecePosition 1 Dimension coordinate on the board
      * @param pieceColour Colour of Piece (Black or White)
      */
-    public Piece(PieceType pieceType, int piecePosition, Colour pieceColour) {
+    public Piece(final PieceType pieceType,final int piecePosition, final Colour pieceColour) {
         this.pieceType = pieceType;
         this.piecePosition = piecePosition;
         this.pieceColour = pieceColour;
@@ -37,6 +37,8 @@ public abstract class Piece {
      * @return returns List of Moves
      */
     public abstract Collection<Move> calculateLegalMoves(final Board board);
+
+    public abstract Piece movePiece(Move move);
 
 
     /**

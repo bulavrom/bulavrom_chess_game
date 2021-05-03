@@ -3,6 +3,10 @@ package com.chess.engine.Player;
 import com.chess.engine.Board.Board;
 import com.chess.engine.Board.Move;
 
+
+/**
+ * This class represent the board after making move
+ */
 public class MoveJump{
 
     private final Board board;
@@ -13,5 +17,9 @@ public class MoveJump{
         this.board = board;
         this.move = move;
         this.moveStatus = moveStatus;
+    }
+
+    public MoveStatus getMoveStatus(){
+        return this.moveStatus;
     }
 }

@@ -21,7 +21,7 @@ public class Bishop extends LinearPiece {
      * @param piecePosition position of Tile where Piece is located
      * @param pieceColour   Colour of Piece(Black or White)
      */
-    public Bishop(int piecePosition, Colour pieceColour) {
+    public Bishop(final int piecePosition,final Colour pieceColour) {
 
         super(PieceType.BISHOP, piecePosition, pieceColour);
     }
@@ -29,6 +29,11 @@ public class Bishop extends LinearPiece {
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
         return calculateLinearLegalMoves(board,possibleMovesOffsets);
+    }
+
+    @Override
+    public Piece movePiece(final Move move) {
+        return new Bishop(move.getDestinationCoordinate(),move.getPieceToMove().getPieceColour());
     }
 
     /**

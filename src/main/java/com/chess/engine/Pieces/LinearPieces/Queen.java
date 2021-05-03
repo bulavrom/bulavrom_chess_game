@@ -19,10 +19,16 @@ public class Queen extends LinearPiece{
      * @param piecePosition position of Tile where Piece is located
      * @param pieceColour   Colour of Piece(Black or White)
      */
-    public Queen(int piecePosition, Colour pieceColour) {
+    public Queen(final int piecePosition,final Colour pieceColour) {
 
         super(PieceType.QUEEN, piecePosition, pieceColour);
     }
+
+    @Override
+    public Piece movePiece(final Move move) {
+        return new Queen(move.getDestinationCoordinate(),move.getPieceToMove().getPieceColour());
+    }
+
 
     @Override
     public Collection<Move> calculateLegalMoves(Board board){

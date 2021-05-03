@@ -6,13 +6,17 @@ import com.chess.engine.Colour;
 import com.chess.engine.Pieces.King;
 import com.chess.engine.Pieces.Piece;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class  Player {
 
     protected final Board board;
     protected final King playerKing;
     protected final Collection<Move> playerLegalMoves;
+    private final boolean isInCheck;
 
     /**
      * Standart Constructor
@@ -24,6 +28,24 @@ public abstract class  Player {
         this.board = board;
         this.playerKing = createKing();
         this.playerLegalMoves = playerLegalMoves;
+        this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentLegalMoves).isEmpty();
+    }
+
+
+    /**
+     * Method that calculates all Attack Moves for a Tile (Piece on Tile)
+     * @param piecePosition coordinate of Piece (also Tile Coordinate)
+     * @param moves moves
+     * @return List of Moves having piecePosition as a distination coordinate
+     */
+    private static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
+        final List<Move> attackingMoves = new ArrayList<>();
+        for (final Move move: moves) {
+            if(piecePosition == move.getDestinationCoordinate()){
+                attackingMoves.add(move);
+            }
+        }
+        return attackingMoves;
     }
 
     /**
@@ -53,24 +75,34 @@ public abstract class  Player {
      * @return true in case of Check
      */
     public boolean isInCheck(){
-        return false;
-    } // need to be implemented
+        return this.isInCheck;
+    }
 
     /**
      * Method that controls if Player is in Check Mate (Lose)
      * @return true in case of Check Mate
      */
     public boolean isInCheckMate(){
+        return this.isInCheck && !hasEscapeMoves();
+    }
+
+    protected boolean hasEscapeMoves(){
+        for (final Move move:this.playerLegalMoves){
+            final MoveJump moveJump = makeMove(move);
+            if(moveJump.getMoveStatus().isDone()){
+                return true;
+            }
+        }
         return false;
-    } // need to be implemented
+    }
 
     /**
      * Method that controls if Player is in Stale Mate (have no pieces or there arent any legal moves)
      * @return true in case of Stale Mate
      */
     public boolean isInStaleMate(){
-        return false;
-    } // need to be implemented
+        return !this.isInCheck && !hasEscapeMoves();
+    }
 
 
     // need to be implemented
@@ -78,8 +110,30 @@ public abstract class  Player {
         return false;
     }
 
+    public King getPlayerKing(){
+        return this.playerKing;
+    }
+
+    public Collection<Move> getLegalMoves(){
+        return this.playerLegalMoves;
+    }
+
     public MoveJump makeMove(final Move move){
-        return null;
+
+        if (!isThatMoveLegal(move)){
+            return new MoveJump(this.board,move, MoveStatus.ILLEGAL_MOVE);
+        }
+        final Board jumpBoard = move.execute();
+
+        final Collection<Move> kingAttacks = Player.calculateAttacksOnTile(jumpBoard.getCurrentPlayer().getOpponentPlayer().getPlayerKing().getPiecePosition(),
+                jumpBoard.getCurrentPlayer().getLegalMoves());
+
+        if (!kingAttacks.isEmpty()){
+            return new MoveJump(this.board, move,MoveStatus.GENERATE_CHECK);
+        }
+
+
+        return new MoveJump(jumpBoard,move,MoveStatus.DONE);
     }
 
     /**

@@ -5,6 +5,7 @@ import com.chess.engine.Board.Move;
 import com.chess.engine.Board.StandartMove;
 import com.chess.engine.Colour;
 import com.chess.engine.Board.Board;
+import com.chess.engine.Pieces.LinearPieces.Bishop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,14 @@ public class Pawn extends Piece{
      * @param piecePosition position of Tile where Piece is located
      * @param pieceColour   Colour of Piece(Black or White)
      */
-    public Pawn(int piecePosition, Colour pieceColour) {
+    public Pawn(final int piecePosition, final Colour pieceColour) {
 
         super(PieceType.PAWN, piecePosition, pieceColour);
+    }
+
+    @Override
+    public Piece movePiece(final Move move) {
+        return new Pawn(move.getDestinationCoordinate(),move.getPieceToMove().getPieceColour());
     }
 
     @Override

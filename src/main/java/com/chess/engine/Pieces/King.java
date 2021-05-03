@@ -2,6 +2,7 @@ package com.chess.engine.Pieces;
 
 import com.chess.engine.Board.*;
 import com.chess.engine.Colour;
+import com.chess.engine.Pieces.LinearPieces.Bishop;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,9 +17,14 @@ public class King extends Piece{
      * @param piecePosition position of Tile where Piece is located
      * @param pieceColour   Colour of Piece(Black or White)
      */
-    public King(int piecePosition, Colour pieceColour) {
+    public King(final int piecePosition,final Colour pieceColour) {
 
         super(PieceType.KING, piecePosition, pieceColour);
+    }
+
+    @Override
+    public Piece movePiece(final Move move) {
+        return new King(move.getDestinationCoordinate(),move.getPieceToMove().getPieceColour());
     }
 
     @Override

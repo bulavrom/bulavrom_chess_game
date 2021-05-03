@@ -2,6 +2,7 @@ package com.chess.engine.Pieces;
 
 import com.chess.engine.Board.*;
 import com.chess.engine.Colour;
+import com.chess.engine.Pieces.LinearPieces.Bishop;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +22,12 @@ public class Knight extends Piece{
     public Knight(final int piecePosition, final Colour pieceColour) {
 
         super(PieceType.KNIGHT, piecePosition, pieceColour);
+    }
+
+
+    @Override
+    public Piece movePiece(final Move move) {
+        return new Knight(move.getDestinationCoordinate(),move.getPieceToMove().getPieceColour());
     }
 
     @Override

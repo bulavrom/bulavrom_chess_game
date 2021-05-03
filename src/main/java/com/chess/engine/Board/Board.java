@@ -22,6 +22,7 @@ public final class Board {
     
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
 
 
     /**
@@ -38,6 +39,7 @@ public final class Board {
 
         this.whitePlayer = new WhitePlayer(this, blackLegalMoves, whiteLegalMoves);
         this.blackPlayer = new BlackPlayer(this, blackLegalMoves, whiteLegalMoves);
+        this.currentPlayer = builder.colourThatMovesNext.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
 
 
@@ -172,6 +174,10 @@ public final class Board {
         // White moves first
         builder.setColourThatMovesNext(Colour.WHITE);
         return builder.build();
+    }
+
+    public Player getCurrentPlayer(){
+        return this.currentPlayer;
     }
 
     /**

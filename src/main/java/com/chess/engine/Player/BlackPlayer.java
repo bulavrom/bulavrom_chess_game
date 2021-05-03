@@ -8,13 +8,13 @@ import com.chess.engine.Pieces.Piece;
 import java.util.Collection;
 
 public class BlackPlayer extends Player{
-    public BlackPlayer(Board board, Collection<Move> blackLegalMoves, Collection<Move> whiteLegalMoves) {
+    public BlackPlayer(final Board board, final Collection<Move> blackLegalMoves, final Collection<Move> whiteLegalMoves) {
         super(board, blackLegalMoves, whiteLegalMoves);
     }
 
     @Override
     public Collection<Piece> getActivePieces() {
-        return this.board.getWhiteActivePieces()
+        return this.board.getWhiteActivePieces();
     }
 
     @Override
