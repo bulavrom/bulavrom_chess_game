@@ -1,5 +1,6 @@
 package com.chess.engine.Board;
 
+import com.chess.engine.Board.Moves.Move;
 import com.chess.engine.Colour;
 import com.chess.engine.Pieces.*;
 import com.chess.engine.Pieces.LinearPieces.*;
@@ -178,6 +179,12 @@ public final class Board {
 
     public Player getCurrentPlayer(){
         return this.currentPlayer;
+    }
+
+    public Collection<Move> getAllLegalMoves() {
+        List<Move> allLegalMoves = new ArrayList<>(this.whitePlayer.getLegalMoves());
+        allLegalMoves.addAll(this.blackPlayer.getLegalMoves());
+        return allLegalMoves;
     }
 
     /**

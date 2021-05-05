@@ -1,11 +1,10 @@
 package com.chess.engine.Pieces;
-
-import com.chess.engine.Board.AttackMove;
-import com.chess.engine.Board.Move;
-import com.chess.engine.Board.StandartMove;
+import com.chess.engine.Board.Moves.AttackMove;
+import com.chess.engine.Board.Moves.Move;
+import com.chess.engine.Board.Moves.StandartMove;
 import com.chess.engine.Colour;
 import com.chess.engine.Board.Board;
-import com.chess.engine.Pieces.LinearPieces.Bishop;
+
 
 import java.util.ArrayList;
 import java.util.List;

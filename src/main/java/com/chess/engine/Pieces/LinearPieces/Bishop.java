@@ -1,6 +1,7 @@
 package com.chess.engine.Pieces.LinearPieces;
 
 import com.chess.engine.Board.*;
+import com.chess.engine.Board.Moves.Move;
 import com.chess.engine.Colour;
 import com.chess.engine.Pieces.Piece;
 
