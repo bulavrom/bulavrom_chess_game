@@ -24,6 +24,44 @@ public abstract class Move {
         return this.destinationCoordinate;
     }
 
+    public boolean isAttackMove(){
+        return false;
+    }
+
+    public boolean isCastlingMove(){
+        return false;
+    }
+
+    public Piece getAttackedPiece(){
+        return null;
+    }
+
+    @Override
+    public int hashCode(){
+        final int prime = 31;
+        int result = 1;
+
+        result = prime * result + this.destinationCoordinate;
+        result = prime * result + this.pieceToMove.hashCode();
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object other){
+        if (this == other){
+            return true;
+        }
+        if (!(other instanceof Move)){
+            return false;
+        }
+        final Move otherMove = (Move)other;
+        return getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
+               getPieceToMove().equals(otherMove.getPieceToMove());
+
+    }
+
+
     public Piece getPieceToMove(){
         return this.pieceToMove;
     }

@@ -194,6 +194,7 @@ public final class Board {
 
         Map<Integer, Piece> boardConfig;
         Colour colourThatMovesNext;
+        Pawn enPassantPawn;
 
         public Builder(){
         }
@@ -212,5 +213,8 @@ public final class Board {
             return new Board(this);
         }
 
+        public void setEnPassantPawn(Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
+        }
     }
 }
