@@ -16,6 +16,7 @@ public abstract class Piece {
     protected final int piecePosition;
     protected final Colour pieceColour;
     protected final boolean isFirstMove;
+    private final int cacheHashCode;
 
     /**
      * Standart Constructor
@@ -29,7 +30,9 @@ public abstract class Piece {
         this.piecePosition = piecePosition;
         this.pieceColour = pieceColour;
         this.isFirstMove = false;
+        this.cacheHashCode = calculateHashCode();
     }
+
 
     /**
      * Method that will be overrided in extended classes to calculate all Legal Moves for the Piece
@@ -75,6 +78,46 @@ public abstract class Piece {
         return this.pieceType;
     }
 
+
+    /**
+     * Ovverride of method "equals" to compare different pieces
+     * @param other
+     * @return
+     */
+    @Override
+    public boolean equals(final Object other){
+        if (this == other){
+            return true;
+        }
+        if (!(other instanceof Piece)){
+            return false;
+        }
+        final Piece otherPiece = (Piece) other;
+        return piecePosition == otherPiece.getPiecePosition() && pieceType == otherPiece.getPieceType() &&
+                pieceColour == otherPiece.getPieceColour() && isFirstMove == otherPiece.isFirstMove();
+    }
+
+    /**
+     * Method that calculates idividual Hash Code
+     * @return hash code for a piece
+     */
+    private int calculateHashCode(){
+        int result = pieceType.hashCode();
+        result = 31 * result + pieceColour.hashCode();
+        result = 31 * result + piecePosition;
+        result = 31 * result + (isFirstMove ? 1 : 0);
+        return result;
+    }
+
+
+    /**
+     * Overrited method that returns calculated and cached hash code
+     * @return hash code
+     */
+    @Override
+    public int hashCode(){
+        return this.cacheHashCode;
+    }
 
     public enum PieceType{
         PAWN{
