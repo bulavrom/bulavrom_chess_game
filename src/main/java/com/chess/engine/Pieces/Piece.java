@@ -57,7 +57,7 @@ public abstract class Piece {
      * Method that controls if is the first move for a piece
      * @return true if its first move
      */
-    protected boolean isFirstMove(){
+    public boolean isFirstMove(){
         return this.isFirstMove;
     }
 
@@ -125,10 +125,20 @@ public abstract class Piece {
             public boolean isKing(){
                 return false;
             }
+
+            @Override
+            public boolean isRook() {
+                return false;
+            }
         },
         KNIGHT {
             @Override
             public boolean isKing() {
+                return false;
+            }
+
+            @Override
+            public boolean isRook() {
                 return false;
             }
         },
@@ -137,16 +147,31 @@ public abstract class Piece {
             public boolean isKing() {
                 return false;
             }
+
+            @Override
+            public boolean isRook() {
+                return false;
+            }
         },
         ROOK {
             @Override
             public boolean isKing() {
                 return false;
             }
+
+            @Override
+            public boolean isRook() {
+                return true;
+            }
         },
         QUEEN {
             @Override
             public boolean isKing() {
+                return false;
+            }
+
+            @Override
+            public boolean isRook() {
                 return false;
             }
         },
@@ -155,6 +180,11 @@ public abstract class Piece {
             public boolean isKing() {
                 return true;
             }
+
+            @Override
+            public boolean isRook() {
+                return false;
+            }
         };
 
         /**
@@ -162,5 +192,7 @@ public abstract class Piece {
          * @return true if the PieceType is King
          */
         public abstract boolean isKing();
+
+        public abstract boolean isRook();
     }
 }

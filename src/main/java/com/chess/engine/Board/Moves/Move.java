@@ -1,6 +1,7 @@
 package com.chess.engine.Board.Moves;
 
 import com.chess.engine.Board.Board;
+import com.chess.engine.Board.Board.Builder;
 import com.chess.engine.Pieces.Piece;
 
 /**
@@ -67,7 +68,7 @@ public abstract class Move {
     }
 
     public Board execute(){
-        final Board.Builder builder = new Board.Builder();
+        final Builder builder = new Builder();
 
         for (final Piece piece:this.board.getCurrentPlayer().getActivePieces()) {
             if (!this.pieceToMove.equals(piece)){

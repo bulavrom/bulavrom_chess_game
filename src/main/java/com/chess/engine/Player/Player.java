@@ -28,6 +28,7 @@ public abstract class  Player {
         this.board = board;
         this.playerKing = createKing();
         this.playerLegalMoves = playerLegalMoves;
+        this.playerLegalMoves.addAll(calculateKingCastles(playerLegalMoves,opponentLegalMoves));
         this.isInCheck = !Player.calculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentLegalMoves).isEmpty();
     }
 
@@ -38,7 +39,7 @@ public abstract class  Player {
      * @param moves moves
      * @return List of Moves having piecePosition as a distination coordinate
      */
-    private static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
+     protected static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
         final List<Move> attackingMoves = new ArrayList<>();
         for (final Move move: moves) {
             if(piecePosition == move.getDestinationCoordinate()){
@@ -155,4 +156,6 @@ public abstract class  Player {
      * @return BlackPlayer for WhitePlayer, WhitePlayer for BlackPlayer
      */
     public abstract Player getOpponentPlayer();
+
+    protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegalMoves, Collection<Move> opponentLegalMoves);
 }

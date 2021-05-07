@@ -45,6 +45,11 @@ public abstract class Tile {
     }
 
 
+    public int getTileCoordinate(){
+        return this.tileCoordinate;
+    }
+
+
     /**
      * Method that return true if Tile is Occupied by Piece
      * @return false/true if Tile occupied
