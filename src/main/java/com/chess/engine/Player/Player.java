@@ -24,7 +24,7 @@ public abstract class  Player {
      * @param playerLegalMoves
      * @param opponentLegalMoves
      */
-    Player(final Board board,final Collection<Move> playerLegalMoves, final Collection<Move> opponentLegalMoves){
+    public Player(final Board board,final Collection<Move> playerLegalMoves, final Collection<Move> opponentLegalMoves){
         this.board = board;
         this.playerKing = createKing();
         this.playerLegalMoves = playerLegalMoves;
