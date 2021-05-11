@@ -23,6 +23,11 @@ public enum Colour {
         public Player choosePlayer(final WhitePlayer whitePlayer,final BlackPlayer blackPlayer) {
             return whitePlayer;
         }
+
+        @Override
+        public String toString(){
+            return "W";
+        }
     },
     BLACK{
         @Override
@@ -38,6 +43,11 @@ public enum Colour {
         @Override
         public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
             return blackPlayer;
+        }
+
+        @Override
+        public String toString(){
+            return "B";
         }
     };
 

@@ -130,6 +130,11 @@ public abstract class Piece {
             public boolean isRook() {
                 return false;
             }
+
+            @Override
+            public String toString(){
+                return "P";
+            }
         },
         KNIGHT {
             @Override
@@ -140,6 +145,11 @@ public abstract class Piece {
             @Override
             public boolean isRook() {
                 return false;
+            }
+
+            @Override
+            public String toString(){
+                return "N";
             }
         },
         BISHOP {
@@ -152,6 +162,11 @@ public abstract class Piece {
             public boolean isRook() {
                 return false;
             }
+
+            @Override
+            public String toString(){
+                return "B";
+            }
         },
         ROOK {
             @Override
@@ -162,6 +177,11 @@ public abstract class Piece {
             @Override
             public boolean isRook() {
                 return true;
+            }
+
+            @Override
+            public String toString(){
+                return "R";
             }
         },
         QUEEN {
@@ -174,6 +194,11 @@ public abstract class Piece {
             public boolean isRook() {
                 return false;
             }
+
+            @Override
+            public String toString(){
+                return "Q";
+            }
         },
         KING {
             @Override
@@ -184,6 +209,11 @@ public abstract class Piece {
             @Override
             public boolean isRook() {
                 return false;
+            }
+
+            @Override
+            public String toString(){
+                return "K";
             }
         };
 

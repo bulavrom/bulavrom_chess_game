@@ -52,7 +52,8 @@ public final class Board {
     private Collection<Move> calculateColourLegalMoves(Collection<Piece> pieces) {
         final List<Move> legalMoves = new ArrayList<>();
         for (final Piece piece:pieces) {
-            legalMoves.add((Move) piece.calculateLegalMoves(this));
+//            legalMoves.add((Move) piece.calculateLegalMoves(this));
+            legalMoves.addAll(piece.calculateLegalMoves(this));
         }
         return legalMoves;
     }
@@ -192,7 +193,7 @@ public final class Board {
      */
     public static class Builder{
 
-        Map<Integer, Piece> boardConfig;
+        Map<Integer, Piece> boardConfig = new HashMap<>();
         Colour colourThatMovesNext;
         Pawn enPassantPawn;
 
