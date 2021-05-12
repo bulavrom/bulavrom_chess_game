@@ -9,7 +9,8 @@ public final class StandartMove extends Move {
         super(board, pieceToMove, destinationCoordinate);
     }
 
-
-
-
+    @Override
+    public boolean equals(final Object other){
+        return this == other || other instanceof StandartMove && super.equals(other);
+    }
 }

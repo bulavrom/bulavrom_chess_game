@@ -20,8 +20,11 @@ public class Rook extends LinearPiece{
      * @param pieceColour   Colour of Piece (Black or White)
      */
     public Rook(final int piecePosition,final Colour pieceColour) {
+        super(PieceType.ROOK, piecePosition, pieceColour,true);
+    }
 
-        super(PieceType.ROOK, piecePosition, pieceColour);
+    public Rook(final int piecePosition,final Colour pieceColour,final boolean isFirstMove) {
+        super(PieceType.ROOK, piecePosition, pieceColour,isFirstMove);
     }
 
     @Override

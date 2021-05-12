@@ -22,7 +22,17 @@ public class King extends Piece{
      */
     public King(final int piecePosition,final Colour pieceColour) {
 
-        super(PieceType.KING, piecePosition, pieceColour);
+        super(PieceType.KING, piecePosition, pieceColour,true);
+    }
+
+    /**
+     * Overloaded constructor that also takes a boolean variable 'isFirstMove'
+     * @param piecePosition 1 Dimension coordinate on the board
+     * @param pieceColour Colour of Piece(Black or White)
+     * @param isFirstMove boolean variable that represents if piece has moved or not
+     */
+    public King(final int piecePosition, final Colour pieceColour,final boolean isFirstMove) {
+        super(PieceType.KING, piecePosition, pieceColour,isFirstMove);
     }
 
     @Override

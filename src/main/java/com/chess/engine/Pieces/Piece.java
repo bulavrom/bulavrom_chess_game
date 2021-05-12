@@ -25,11 +25,11 @@ public abstract class Piece {
      * @param piecePosition 1 Dimension coordinate on the board
      * @param pieceColour Colour of Piece (Black or White)
      */
-    public Piece(final PieceType pieceType,final int piecePosition, final Colour pieceColour) {
+    public Piece(final PieceType pieceType,final int piecePosition, final Colour pieceColour,final boolean isFirstMove) {
         this.pieceType = pieceType;
         this.piecePosition = piecePosition;
         this.pieceColour = pieceColour;
-        this.isFirstMove = false;
+        this.isFirstMove = isFirstMove;
         this.cacheHashCode = calculateHashCode();
     }
 

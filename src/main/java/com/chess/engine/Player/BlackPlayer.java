@@ -14,25 +14,53 @@ import java.util.Collection;
 import java.util.List;
 
 public class BlackPlayer extends Player{
+
+    /**
+     * Default constructor for a Black Player
+     * @param board
+     * @param blackLegalMoves
+     * @param whiteLegalMoves
+     */
     public BlackPlayer(final Board board, final Collection<Move> blackLegalMoves, final Collection<Move> whiteLegalMoves) {
         super(board, blackLegalMoves, whiteLegalMoves);
     }
 
+
+    /**
+     * Method that returns all Black Active Pieces
+     * @return all black active pieces
+     */
     @Override
     public Collection<Piece> getActivePieces() {
         return this.board.getBlackActivePieces();
     }
 
+
+    /**
+     * Method that returns a Black Colour(for a Black Player)
+     * @return Black Colour
+     */
     @Override
     public Colour getColour() {
         return Colour.BLACK;
     }
 
+    /**
+     * Method that returns opposite player for Black Player
+     * @return white Player
+     */
     @Override
     public Player getOpponentPlayer() {
         return this.board.getWhitePlayer();
     }
 
+
+    /**
+     * Method that calculates possible castle moves for a Player
+     * @param playerLegalMoves this player legal moves
+     * @param opponentLegalMoves opponent player legal moves
+     * @return ArrayList of possible castle moves
+     */
     @Override
     protected Collection<Move> calculateKingCastles(final Collection<Move> playerLegalMoves,final Collection<Move> opponentLegalMoves) {
         final List<Move> kingCastles = new ArrayList<>();

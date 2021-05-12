@@ -20,16 +20,18 @@ public abstract class LinearPiece extends Piece {
      * @param piecePosition 1 Dimension coordinate on the board
      * @param pieceColour   Colour of Piece (Black or White)
      */
-    public LinearPiece(PieceType pieceType,int piecePosition, Colour pieceColour) {
+    public LinearPiece(final PieceType pieceType,final int piecePosition, final Colour pieceColour, final boolean isFirstMove) {
 
-        super(pieceType, piecePosition, pieceColour);
+        super(pieceType, piecePosition, pieceColour,isFirstMove);
     }
+
+
 
     /**
      * Pieces that moves linearly have simillar logic for calculate moves
-     * @param board
-     * @param possibleMovesOffsets
-     * @return
+     * @param board given board
+     * @param possibleMovesOffsets possible offsets for detect legal moves
+     * @return List of legal Moves
      */
     public Collection<Move> calculateLinearLegalMoves(Board board, int[] possibleMovesOffsets){
         final List<Move> legalMoves = new ArrayList<>();

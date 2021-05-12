@@ -19,10 +19,10 @@ public abstract class  Player {
     private final boolean isInCheck;
 
     /**
-     * Standart Constructor
-     * @param board
-     * @param playerLegalMoves
-     * @param opponentLegalMoves
+     * Default Constructor
+     * @param board given board
+     * @param playerLegalMoves players legal moves
+     * @param opponentLegalMoves opponent players legal moves
      */
     public Player(final Board board,final Collection<Move> playerLegalMoves, final Collection<Move> opponentLegalMoves){
         this.board = board;
@@ -111,14 +111,30 @@ public abstract class  Player {
         return false;
     }
 
+
+    /**
+     * Method that returns king piece of that player
+     * @return players king piece
+     */
     public King getPlayerKing(){
         return this.playerKing;
     }
 
+
+    /**
+     * Method that returns player legal moves
+     * @return player legal moves
+     */
     public Collection<Move> getLegalMoves(){
         return this.playerLegalMoves;
     }
 
+
+    /**
+     * Method that represents making of move
+     * @param move given move
+     * @return Move Jump (move that was executed) as parametrs takes Jump  Board(Board after executed move), executed move and move status
+     */
     public MoveJump makeMove(final Move move){
 
         if (!isThatMoveLegal(move)){

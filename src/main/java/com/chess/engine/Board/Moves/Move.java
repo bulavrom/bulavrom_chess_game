@@ -12,6 +12,7 @@ public abstract class Move {
     final Board board;
     final Piece pieceToMove;
     final int destinationCoordinate;
+    final boolean isFirstMove;
 
     public static final Move INVALID_MOVE = new InvaildMove();
 
@@ -19,6 +20,7 @@ public abstract class Move {
         this.board = board;
         this.pieceToMove = pieceToMove;
         this.destinationCoordinate = destinationCoordinate;
+        this.isFirstMove = pieceToMove.isFirstMove();
     }
 
     public int getDestinationCoordinate(){
@@ -44,6 +46,7 @@ public abstract class Move {
 
         result = prime * result + this.destinationCoordinate;
         result = prime * result + this.pieceToMove.hashCode();
+        result = prime * result + this.pieceToMove.getPiecePosition();
 
         return result;
     }
@@ -57,8 +60,9 @@ public abstract class Move {
             return false;
         }
         final Move otherMove = (Move)other;
-        return getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
-               getPieceToMove().equals(otherMove.getPieceToMove());
+        return  getCurrentCoordinate() == otherMove.getCurrentCoordinate() &&
+                getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
+                getPieceToMove().equals(otherMove.getPieceToMove());
 
     }
 

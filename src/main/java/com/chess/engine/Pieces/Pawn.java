@@ -1,7 +1,5 @@
 package com.chess.engine.Pieces;
-import com.chess.engine.Board.Moves.AttackMove;
-import com.chess.engine.Board.Moves.Move;
-import com.chess.engine.Board.Moves.StandartMove;
+import com.chess.engine.Board.Moves.*;
 import com.chess.engine.Colour;
 import com.chess.engine.Board.Board;
 
@@ -21,7 +19,17 @@ public class Pawn extends Piece{
      */
     public Pawn(final int piecePosition, final Colour pieceColour) {
 
-        super(PieceType.PAWN, piecePosition, pieceColour);
+        super(PieceType.PAWN, piecePosition, pieceColour,true);
+    }
+
+    /**
+     * Overloaded constructor that also takes a boolean variable 'isFirstMove'
+     * @param piecePosition 1 Dimension coordinate on the board
+     * @param pieceColour Colour of Piece(Black or White)
+     * @param isFirstMove boolean variable that represents if piece has moved or not
+     */
+    public Pawn(final int piecePosition, final Colour pieceColour,final boolean isFirstMove) {
+        super(PieceType.PAWN, piecePosition, pieceColour,isFirstMove);
     }
 
     @Override
@@ -57,12 +65,12 @@ public class Pawn extends Piece{
                 final int standartMoveDestinationCoordinate = this.piecePosition + direction * 8;
                 if (!board.getTile(standartMoveDestinationCoordinate).isTileOccupied() &&
                     !board.getTile(possibleMoveDestinationCoordinate).isTileOccupied()){
-                    legalMoves.add(new StandartMove(board, this, possibleMoveDestinationCoordinate));
+                    legalMoves.add(new PawnJumpMove(board, this, possibleMoveDestinationCoordinate));
                 }
             }else if (!coloumnAttackMoveExclusion(this.piecePosition,offsetCandidate,this)){
                 final Piece pieceOnCandidateTile = board.getTile(possibleMoveDestinationCoordinate).getPiece();
                 if (pieceOnCandidateTile != null && this.getPieceColour() != pieceOnCandidateTile.getPieceColour()){
-                    legalMoves.add(new AttackMove(board,this,possibleMoveDestinationCoordinate,pieceOnCandidateTile));
+                    legalMoves.add(new PawnAttackMove(board,this,possibleMoveDestinationCoordinate,pieceOnCandidateTile));
                 }
             }
 

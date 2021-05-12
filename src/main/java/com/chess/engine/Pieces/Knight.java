@@ -17,14 +17,23 @@ public class Knight extends Piece{
     private static final int[] possibleMovesOffsets = {-17, -15, -10, -6, 6, 10, 15, 17};
 
     /**
-     * Standart constructor
+     * Default constructor
      *
      * @param piecePosition 1 Dimension coordinate on the board
      * @param pieceColour Colour of Piece (Black or White)
      */
     public Knight(final int piecePosition, final Colour pieceColour) {
+        super(PieceType.KNIGHT, piecePosition, pieceColour,true);
+    }
 
-        super(PieceType.KNIGHT, piecePosition, pieceColour);
+    /**
+     * Overloaded constructor that also takes a boolean variable 'isFirstMove'
+     * @param piecePosition 1 Dimension coordinate on the board
+     * @param pieceColour Colour of Piece(Black or White)
+     * @param isFirstMove boolean variable that represents if piece has moved or not
+     */
+    public Knight(final int piecePosition, final Colour pieceColour,final boolean isFirstMove) {
+        super(PieceType.KNIGHT, piecePosition, pieceColour,isFirstMove);
     }
 
 

@@ -18,21 +18,41 @@ public class WhitePlayer extends Player{
         super(board, whiteLegalMoves, blackLegalMoves);
     }
 
+    /**
+     * Method that returns all White Active Pieces
+     * @return all white active pieces
+     */
     @Override
     public Collection<Piece> getActivePieces() {
         return this.board.getWhiteActivePieces();
     }
 
+    /**
+     * Method that returns a White Colour(for a White Player)
+     * @return White Colour
+     */
     @Override
     public Colour getColour() {
         return Colour.WHITE;
     }
 
+
+    /**
+     * Method that returns opposite player for White Player
+     * @return Black Player
+     */
     @Override
     public Player getOpponentPlayer() {
         return this.board.getBlackPlayer();
     }
 
+
+    /**
+     * Method that calculates possible castle moves for a Player
+     * @param playerLegalMoves this player legal moves
+     * @param opponentLegalMoves opponent player legal moves
+     * @return ArrayList of possible castle moves
+     */
     @Override
     protected Collection<Move> calculateKingCastles(final Collection<Move> playerLegalMoves, final Collection<Move> opponentLegalMoves) {
         final List<Move> kingCastles = new ArrayList<>();
