@@ -20,7 +20,7 @@ public class BlackPlayer extends Player{
 
     @Override
     public Collection<Piece> getActivePieces() {
-        return this.board.getWhiteActivePieces();
+        return this.board.getBlackActivePieces();
     }
 
     @Override

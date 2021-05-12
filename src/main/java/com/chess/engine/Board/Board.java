@@ -7,6 +7,7 @@ import com.chess.engine.Pieces.LinearPieces.*;
 import com.chess.engine.Player.BlackPlayer;
 import com.chess.engine.Player.Player;
 import com.chess.engine.Player.WhitePlayer;
+import com.chess.gui.ChessGUI.*;
 
 import java.util.*;
 
@@ -217,5 +218,36 @@ public final class Board {
         public void setEnPassantPawn(Pawn enPassantPawn) {
             this.enPassantPawn = enPassantPawn;
         }
+    }
+
+    public enum BoardDirection{
+        NORMAL{
+            @Override
+            public List<ChessTilePanel> reverse(List<ChessTilePanel> tilesOnBoard) {
+                return tilesOnBoard;
+            }
+
+            @Override
+            public BoardDirection opposite() {
+                return FLIPPED;
+            }
+        },
+        FLIPPED{
+            @Override
+            public List<ChessTilePanel> reverse(List<ChessTilePanel> tilesOnBoard) {
+                List<ChessTilePanel> reversed;
+                reversed = tilesOnBoard;
+                Collections.reverse(reversed);
+                return reversed;
+            }
+
+            @Override
+            public BoardDirection opposite() {
+                return NORMAL;
+            }
+        };
+
+        public abstract List<ChessTilePanel> reverse(final List<ChessTilePanel> tilesOnBoard);
+        public abstract BoardDirection opposite();
     }
 }

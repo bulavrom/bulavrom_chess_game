@@ -10,10 +10,6 @@ public final class StandartMove extends Move {
     }
 
 
-    /**
-     * Method that makes a move
-     * it creates a new board (with builder) with all pieces from standart board except piece that is going to move
-     * @return board after executed move
-     */
+
 
 }

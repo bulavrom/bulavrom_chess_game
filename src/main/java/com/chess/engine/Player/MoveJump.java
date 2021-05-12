@@ -22,4 +22,8 @@ public class MoveJump{
     public MoveStatus getMoveStatus(){
         return this.moveStatus;
     }
+
+    public Board getBoard(){
+        return this.board;
+    }
 }

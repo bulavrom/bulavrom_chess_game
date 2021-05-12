@@ -1,34 +1,52 @@
 package com.chess.gui;
 
 import com.chess.engine.Board.Board;
+import com.chess.engine.Board.Moves.Move;
+import com.chess.engine.Board.Tile;
+import com.chess.engine.Pieces.Piece;
+import com.chess.engine.Player.MoveJump;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chess.engine.Board.Board.*;
+import static javax.swing.SwingUtilities.isLeftMouseButton;
+import static javax.swing.SwingUtilities.isRightMouseButton;
+
 public class ChessGUI {
 
     private final JFrame chessFrame;
-    private final Board chessBoard;
+    private Board chessBoard;
+    private Tile sourceTile;
+    private Tile destinationTile;
+    private Piece movedPiece;
     private final ChessBoardPanel chessBoardPanel;
+    private BoardDirection boardDirection;
     private final String pieceImagePath = "icons/pieces/";
 
     public ChessGUI(){
         this.chessFrame = new JFrame("Chess Game");
         this.chessFrame.setLayout(new BorderLayout());
-        this.chessBoard = Board.createDefaultBoard();
+        this.chessBoard = createDefaultBoard();
         this.chessBoardPanel = new ChessBoardPanel();
+        this.sourceTile = null;
+        this.destinationTile = null;
+        this.boardDirection = BoardDirection.NORMAL;
 
 
         final JMenuBar chessMenuBar = new JMenuBar();
         final JMenu fileMenu = new JMenu("File");
+        final JMenu boardMenu = new JMenu("Board");
         final JMenu settingsMenu = new JMenu();
 
         final JMenuItem openPGN = new JMenuItem("Open PGN file");
@@ -38,9 +56,18 @@ public class ChessGUI {
 
             }
         });
-
+        final JMenuItem flipBoard = new JMenuItem("Change direction");
+        flipBoard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boardDirection = boardDirection.opposite();
+                chessBoardPanel.drawBoard(chessBoard);
+            }
+        });
+        boardMenu.add(flipBoard);
         fileMenu.add(openPGN);
         chessMenuBar.add(fileMenu);
+        chessMenuBar.add(boardMenu);
 
         this.chessFrame.add(this.chessBoardPanel, BorderLayout.CENTER);
 
@@ -68,9 +95,22 @@ public class ChessGUI {
             setPreferredSize(new Dimension(500,500));
             validate();
         }
+
+        public void drawBoard(final Board chessBoard) {
+            removeAll();
+            for (final ChessTilePanel tilePanel : boardDirection.reverse(tilesOnBoard)) {
+                tilePanel.drawTile(chessBoard);
+                add(tilePanel);
+            }
+            boardDirection = BoardDirection.NORMAL;
+            validate();
+            repaint();
+        }
+
+
     }
 
-    private class ChessTilePanel extends JPanel{
+    public class ChessTilePanel extends JPanel{
         private final int tileId;
 
         ChessTilePanel(final ChessBoardPanel boardPanel, final int tileId){
@@ -84,6 +124,65 @@ public class ChessGUI {
                 setBackground(Color.decode("#B57912"));
             }
             addPieceImage(chessBoard);
+            addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    //Right click to cancel
+                    if (isRightMouseButton(e)){
+                        //delete after debug
+                        //System.out.println(chessBoard.getTile(tileId).getPiece().getPieceColour().toString() + chessBoard.getTile(tileId).getPiece().getPieceType().toString());
+                        sourceTile = null;
+                        destinationTile = null;
+                        movedPiece = null;
+
+                    }else if (isLeftMouseButton(e)){
+                        //The first click
+                        if(sourceTile == null){
+                            sourceTile = chessBoard.getTile(tileId);
+                            movedPiece = sourceTile.getPiece();
+                            if(movedPiece == null){
+                                sourceTile = null;
+                            }
+                        }else {
+                            destinationTile = chessBoard.getTile(tileId);
+                            final Move move = Move.MoveFactory.createMove(chessBoard,sourceTile.getTileCoordinate(),destinationTile.getTileCoordinate());
+                            final MoveJump moveJump = chessBoard.getCurrentPlayer().makeMove(move);
+                            if(moveJump.getMoveStatus().isDone()){
+                                chessBoard = moveJump.getBoard();
+                            }
+                            sourceTile = null;
+                            destinationTile = null;
+                            movedPiece = null;
+                        }
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                boardPanel.drawBoard(chessBoard);
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
             validate();
         }
         private void addPieceImage(final Board board) {
@@ -98,6 +197,16 @@ public class ChessGUI {
                 }
 
             }
+        }
+        public void drawTile (final Board board){
+            if (((this.tileId + (this.tileId/8)) % 2) == 0){
+                setBackground(Color.decode("#FFF08F"));
+            }else{
+                setBackground(Color.decode("#B57912"));
+            }
+            addPieceImage(board);
+            validate();
+            repaint();
         }
 
     }
