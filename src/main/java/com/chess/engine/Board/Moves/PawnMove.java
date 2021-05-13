@@ -7,4 +7,9 @@ public class PawnMove extends Move{
     public PawnMove(Board board, Piece pawnToMove, int destinationCoordinate) {
         super(board, pawnToMove, destinationCoordinate);
     }
+
+    @Override
+    public boolean equals(final Object other){
+        return this == other || other instanceof PawnMove || equals(other);
+    }
 }

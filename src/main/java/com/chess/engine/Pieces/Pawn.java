@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Pawn extends Piece{
 
-    private static final int[] possibleMovesOffsets = {8,16};
+    private static final int[] possibleMovesOffsets = {8,16,7,9};
 
     /**
      * Standart constructor
@@ -60,8 +60,8 @@ public class Pawn extends Piece{
             if (offsetCandidate == 8 && !board.getTile(possibleMoveDestinationCoordinate).isTileOccupied()){
                 legalMoves.add(new StandartMove(board, this, possibleMoveDestinationCoordinate));
             }else if(offsetCandidate == 16 && this.isFirstMove() &&
-            isPawnOnStartPositionForBlack(this.piecePosition,this) ||
-            isPawnOnStartPositionForWhite(this.piecePosition,this)){
+                    (isPawnOnStartPositionForBlack(this.piecePosition,this) ||
+            isPawnOnStartPositionForWhite(this.piecePosition,this))){
                 final int standartMoveDestinationCoordinate = this.piecePosition + direction * 8;
                 if (!board.getTile(standartMoveDestinationCoordinate).isTileOccupied() &&
                     !board.getTile(possibleMoveDestinationCoordinate).isTileOccupied()){

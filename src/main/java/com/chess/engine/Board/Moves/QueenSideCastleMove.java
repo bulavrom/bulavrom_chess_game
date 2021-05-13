@@ -9,4 +9,9 @@ public class QueenSideCastleMove extends CastleMove{
                               final int castleRookStartCoordinate, final int castleRookDestinationCoordinate) {
         super(board, pieceToMove, destinationCoordinate,castleRook,castleRookStartCoordinate,castleRookDestinationCoordinate);
     }
+
+    @Override
+    public boolean equals(final Object other){
+        return this == other || other instanceof QueenSideCastleMove && super.equals(other);
+    }
 }

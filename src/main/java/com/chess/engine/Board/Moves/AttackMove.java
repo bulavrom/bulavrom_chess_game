@@ -30,10 +30,6 @@ public class AttackMove extends Move {
         return super.equals(otherAttackMove) && getAttackedPiece().equals(otherAttackMove.getAttackedPiece());
     }
 
-    @Override
-    public Board execute() {
-        return null;
-    }
 
     @Override
     public boolean isAttackMove(){

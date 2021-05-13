@@ -3,6 +3,7 @@ package com.chess.engine.Pieces.LinearPieces;
 import com.chess.engine.Board.*;
 import com.chess.engine.Board.Moves.AttackMove;
 import com.chess.engine.Board.Moves.Move;
+import com.chess.engine.Board.Moves.StandartAttackMove;
 import com.chess.engine.Board.Moves.StandartMove;
 import com.chess.engine.Colour;
 import com.chess.engine.Pieces.Piece;
@@ -50,7 +51,7 @@ public abstract class LinearPiece extends Piece {
                         final Piece pieceOnCandidateTile = tileCandidate.getPiece();
                         final Colour candidatePieceColour = pieceOnCandidateTile.getPieceColour();
                         if (candidatePieceColour != this.pieceColour) {
-                            legalMoves.add(new AttackMove(board, this, possibleMoveDestinationCoordinate, pieceOnCandidateTile));
+                            legalMoves.add(new StandartAttackMove(board, this, possibleMoveDestinationCoordinate, pieceOnCandidateTile));
                         }
                         break;
                     } else {

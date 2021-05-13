@@ -45,4 +45,24 @@ public abstract class CastleMove extends Move{
         builder.setColourThatMovesNext(this.board.getCurrentPlayer().getOpponentPlayer().getColour());
         return builder.build();
     }
+
+    @Override
+    public int hashCode(){
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + this.castleRook.hashCode();
+        result = prime * result + this.castleRookDestinationCoordinate;
+        return result;
+    }
+    @Override
+    public boolean equals(final Object other){
+        if (this == other){
+            return true;
+        }
+        if (!(other instanceof CastleMove)){
+            return false;
+        }
+        final CastleMove otherCastleMove = (CastleMove) other;
+        return super.equals(otherCastleMove) && this.castleRook.equals(otherCastleMove.getCastleRook());
+    }
 }

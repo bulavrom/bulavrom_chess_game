@@ -14,13 +14,20 @@ public abstract class Move {
     final int destinationCoordinate;
     final boolean isFirstMove;
 
-    public static final Move INVALID_MOVE = new InvaildMove();
+
 
     public Move(final Board board, final Piece pieceToMove, final int destinationCoordinate){
         this.board = board;
         this.pieceToMove = pieceToMove;
         this.destinationCoordinate = destinationCoordinate;
         this.isFirstMove = pieceToMove.isFirstMove();
+    }
+
+    public Move(final Board board,final int destinationCoordinate){
+        this.board = board;
+        this.destinationCoordinate = destinationCoordinate;
+        this.pieceToMove = null;
+        this.isFirstMove = false;
     }
 
     public int getDestinationCoordinate(){
@@ -94,6 +101,9 @@ public abstract class Move {
     }
 
     public static class MoveFactory {
+
+        public static final Move INVALID_MOVE = new InvaildMove();
+
         private MoveFactory(){
             throw new RuntimeException("Not instantiable");
         }
