@@ -26,6 +26,8 @@ public final class Board {
     private final BlackPlayer blackPlayer;
     private final Player currentPlayer;
 
+    private final Pawn enPassantPawn;
+
 
     /**
      * Standart constructor of Board
@@ -35,6 +37,7 @@ public final class Board {
         this.gameBoard = createGameBoard(builder);
         this.whitePieces = createListOfPieces(this.gameBoard, Colour.WHITE);
         this.blackPieces = createListOfPieces(this.gameBoard, Colour.BLACK);
+        this.enPassantPawn = builder.enPassantPawn;
 
         final Collection<Move> whiteLegalMoves = calculateColourLegalMoves(this.whitePieces);
         final Collection<Move> blackLegalMoves = calculateColourLegalMoves(this.blackPieces);
@@ -117,6 +120,10 @@ public final class Board {
         return gameBoard.get(tileCoordinate);
     }
 
+
+    public Pawn getEnPassantPawn(){
+        return this.enPassantPawn;
+    }
 
     /**
      * Method that creates Game Board with 64 Tiles
