@@ -3,6 +3,7 @@ package com.chess.engine.Pieces;
 import com.chess.engine.Board.Moves.*;
 import com.chess.engine.Colour;
 import com.chess.engine.Board.Board;
+import com.chess.engine.Pieces.LinearPieces.Queen;
 
 
 import java.util.ArrayList;
@@ -60,7 +61,12 @@ public class Pawn extends Piece {
             }
 
             if (offsetCandidate == 8 && !board.getTile(possibleMoveDestinationCoordinate).isTileOccupied()) {
-                legalMoves.add(new StandartMove(board, this, possibleMoveDestinationCoordinate));
+                //Pawn Promotion Check (Promotion Move is possible only when the Piece is on Eight rank)
+                if (this.pieceColour.isPieceOnEightRank(possibleMoveDestinationCoordinate)) {
+                    legalMoves.add(new PawnPromotionMove(new PawnMove(board, this, possibleMoveDestinationCoordinate)));
+                } else {
+                    legalMoves.add(new PawnMove(board, this, possibleMoveDestinationCoordinate));
+                }
             } else if (offsetCandidate == 16 && this.isFirstMove() &&
                     (isPawnOnStartPositionForBlack(this.piecePosition, this) ||
                             isPawnOnStartPositionForWhite(this.piecePosition, this))) {
@@ -73,7 +79,12 @@ public class Pawn extends Piece {
                 if (board.getTile(possibleMoveDestinationCoordinate).isTileOccupied()) {
                     final Piece pieceOnCandidateTile = board.getTile(possibleMoveDestinationCoordinate).getPiece();
                     if (pieceOnCandidateTile != null && this.getPieceColour() != pieceOnCandidateTile.getPieceColour()) {
-                        legalMoves.add(new PawnAttackMove(board, this, possibleMoveDestinationCoordinate, pieceOnCandidateTile));
+                        //Pawn Promotion Check (Promotion Move is possible only when the Piece is on Eight rank)
+                        if (this.pieceColour.isPieceOnEightRank(possibleMoveDestinationCoordinate)) {
+                            legalMoves.add(new PawnPromotionMove(new PawnAttackMove(board, this, possibleMoveDestinationCoordinate, pieceOnCandidateTile)));
+                        } else {
+                            legalMoves.add(new PawnAttackMove(board, this, possibleMoveDestinationCoordinate, pieceOnCandidateTile));
+                        }
                     }
                 } else if (board.getEnPassantPawn() != null) {
                     //if the pawn that is enPassantPawn on the board is near by attacking Pawn
@@ -110,5 +121,9 @@ public class Pawn extends Piece {
         }
         return (offsetCandidate == 9 && !(((piecePosition % 8) + 1 == 1 && piece.getPieceColour().isWhite()) ||
                 ((piecePosition % 8) + 1 == 8 && piece.getPieceColour().isBlack())));
+    }
+
+    public Piece getPromotionPiece(){
+        return new Queen(this.piecePosition, this.pieceColour, false);
     }
 }

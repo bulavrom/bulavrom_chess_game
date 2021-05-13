@@ -10,6 +10,6 @@ public class PawnMove extends Move{
 
     @Override
     public boolean equals(final Object other){
-        return this == other || other instanceof PawnMove || equals(other);
+        return this == other || other instanceof PawnMove && super.equals(other);
     }
 }

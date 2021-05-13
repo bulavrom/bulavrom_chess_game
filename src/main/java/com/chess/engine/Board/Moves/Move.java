@@ -46,6 +46,10 @@ public abstract class Move {
         return null;
     }
 
+    public Board getBoard(){
+        return this.board;
+    }
+
     @Override
     public int hashCode(){
         final int prime = 31;

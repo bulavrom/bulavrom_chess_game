@@ -20,6 +20,11 @@ public enum Colour {
         }
 
         @Override
+        public boolean isPieceOnEightRank(final int piecePosition) {
+            return piecePosition >= 0 && piecePosition <=7;
+        }
+
+        @Override
         public Player choosePlayer(final WhitePlayer whitePlayer,final BlackPlayer blackPlayer) {
             return whitePlayer;
         }
@@ -41,6 +46,11 @@ public enum Colour {
         }
 
         @Override
+        public boolean isPieceOnEightRank(final int piecePosition) {
+            return piecePosition >= 48 && piecePosition <= 55;
+        }
+
+        @Override
         public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
             return blackPlayer;
         }
@@ -54,5 +64,6 @@ public enum Colour {
     public abstract boolean isBlack();
     public abstract boolean isWhite();
 
+    public abstract boolean isPieceOnEightRank(final int piecePosition);
     public abstract Player choosePlayer(final WhitePlayer whitePlayer,final BlackPlayer blackPlayer);
 }
