@@ -41,7 +41,7 @@ public class ChessGUI {
     /**
      * Standard constructor that builds GUI
      */
-    public ChessGUI(){
+    public ChessGUI() {
         this.chessFrame = new JFrame("Chess Game");
         this.chessFrame.setLayout(new BorderLayout());
         this.chessBoard = createDefaultBoard();
@@ -75,7 +75,7 @@ public class ChessGUI {
         boardMenu.add(flipBoard);
 
         boardMenu.addSeparator();
-        final JCheckBoxMenuItem highlightLegalMovesCheckBox = new JCheckBoxMenuItem("Highlight legal moves",false);
+        final JCheckBoxMenuItem highlightLegalMovesCheckBox = new JCheckBoxMenuItem("Highlight legal moves", false);
         highlightLegalMovesCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,7 +94,7 @@ public class ChessGUI {
         this.chessFrame.setJMenuBar(chessMenuBar);
 
 
-        this.chessFrame.setSize(new Dimension(800,800));
+        this.chessFrame.setSize(new Dimension(800, 800));
         this.chessFrame.setResizable(false);
         this.chessFrame.setVisible(true);
         this.chessFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -106,18 +106,18 @@ public class ChessGUI {
      * Class that represents Board in GUI as a class that extends from JPanel
      * contains 64 ChessTilePanels
      */
-    private class ChessBoardPanel extends JPanel{
+    private class ChessBoardPanel extends JPanel {
         final List<ChessTilePanel> tilesOnBoard;
 
-        ChessBoardPanel(){
-            super(new GridLayout(8,8));
+        ChessBoardPanel() {
+            super(new GridLayout(8, 8));
             this.tilesOnBoard = new ArrayList<>();
             for (int i = 0; i < 64; i++) {
-                ChessTilePanel chessTilePanel = new ChessTilePanel(this,i);
+                ChessTilePanel chessTilePanel = new ChessTilePanel(this, i);
                 this.tilesOnBoard.add(chessTilePanel);
                 add(chessTilePanel);
             }
-            setPreferredSize(new Dimension(500,500));
+            setPreferredSize(new Dimension(500, 500));
             validate();
         }
 
@@ -139,22 +139,23 @@ public class ChessGUI {
     /**
      * Class that represents Tile in GUI as a class that extends from JPanel
      */
-    public class ChessTilePanel extends JPanel{
+    public class ChessTilePanel extends JPanel {
         private final int tileId;
 
         /**
          * Constructor for a Tile panel
+         *
          * @param boardPanel
          * @param tileId
          */
-        ChessTilePanel(final ChessBoardPanel boardPanel, final int tileId){
+        ChessTilePanel(final ChessBoardPanel boardPanel, final int tileId) {
             super(new GridBagLayout());
             this.tileId = tileId;
-            this.setPreferredSize(new Dimension(10,10));
+            this.setPreferredSize(new Dimension(10, 10));
 
-            if (((this.tileId + (this.tileId/8)) % 2) == 0){
+            if (((this.tileId + (this.tileId / 8)) % 2) == 0) {
                 setBackground(Color.decode("#FFF08F"));
-            }else{
+            } else {
                 setBackground(Color.decode("#B57912"));
             }
             addPieceImage(chessBoard);
@@ -162,26 +163,26 @@ public class ChessGUI {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     //Right click to cancel
-                    if (isRightMouseButton(e)){
+                    if (isRightMouseButton(e)) {
                         //delete after debug
                         //System.out.println(chessBoard.getTile(tileId).getPiece().getPieceColour().toString() + chessBoard.getTile(tileId).getPiece().getPieceType().toString());
                         sourceTile = null;
                         destinationTile = null;
                         movedPiece = null;
 
-                    }else if (isLeftMouseButton(e)){
+                    } else if (isLeftMouseButton(e)) {
                         //The first click
-                        if(sourceTile == null){
+                        if (sourceTile == null) {
                             sourceTile = chessBoard.getTile(tileId);
                             movedPiece = sourceTile.getPiece();
-                            if(movedPiece == null){
+                            if (movedPiece == null) {
                                 sourceTile = null;
                             }
-                        }else {
+                        } else {
                             destinationTile = chessBoard.getTile(tileId);
-                            final Move move = Move.MoveFactory.createMove(chessBoard,sourceTile.getTileCoordinate(),destinationTile.getTileCoordinate());
+                            final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
                             final MoveJump moveJump = chessBoard.getCurrentPlayer().makeMove(move);
-                            if(moveJump.getMoveStatus().isDone()){
+                            if (moveJump.getMoveStatus().isDone()) {
                                 chessBoard = moveJump.getBoard();
                             }
                             sourceTile = null;
@@ -222,16 +223,17 @@ public class ChessGUI {
 
         /**
          * Method that adds a Image Icon to the Tile there is the Piece placed
+         *
          * @param board given board
          */
         private void addPieceImage(final Board board) {
             this.removeAll();
-            if (board.getTile(this.tileId).isTileOccupied()){
+            if (board.getTile(this.tileId).isTileOccupied()) {
                 try {
                     final BufferedImage imagePiece = ImageIO.read(new File(pieceImagePath + board.getTile(this.tileId).getPiece().getPieceColour().toString() +
                             board.getTile(this.tileId).getPiece().getPieceType().toString() + ".png"));
                     add(new JLabel(new ImageIcon(imagePiece)));
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -240,12 +242,13 @@ public class ChessGUI {
 
         /**
          * Method that draws a tile
+         *
          * @param board given board
          */
-        public void drawTile (final Board board){
-            if (((this.tileId + (this.tileId/8)) % 2) == 0){
+        public void drawTile(final Board board) {
+            if (((this.tileId + (this.tileId / 8)) % 2) == 0) {
                 setBackground(Color.decode("#FFF08F"));
-            }else{
+            } else {
                 setBackground(Color.decode("#B57912"));
             }
             addPieceImage(board);
@@ -254,15 +257,17 @@ public class ChessGUI {
             repaint();
         }
 
-        private void highlightLegalMoves(final Board board){
-            if (legalMovesHighlighted){
-                for (final Move move : pieceLegalMoves(board)){
-                    if (move.getDestinationCoordinate() == this.tileId){
-                        try{
-                            add(new JLabel(new ImageIcon(ImageIO.read(new File("icons/icns/greencircle.png")))));
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
+        private void highlightLegalMoves(final Board board) {
+            if (legalMovesHighlighted) {
+                for (final Move move : pieceLegalMoves(board)) {
+                    MoveJump moveJump = board.getCurrentPlayer().makeMove(move);
+                    if (moveJump.getMoveStatus().isDone()) {
+                        if (move.getDestinationCoordinate() == this.tileId) {
+                            try {
+                                add(new JLabel(new ImageIcon(ImageIO.read(new File("icons/icns/greencircle.png")))));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -270,7 +275,7 @@ public class ChessGUI {
         }
 
         private Collection<Move> pieceLegalMoves(final Board board) {
-            if (movedPiece != null && movedPiece.getPieceColour() == board.getCurrentPlayer().getColour()){
+            if (movedPiece != null && movedPiece.getPieceColour() == board.getCurrentPlayer().getColour()) {
                 return movedPiece.calculateLegalMoves(board);
             }
             return Collections.emptyList();
