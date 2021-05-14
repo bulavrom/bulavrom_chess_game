@@ -153,6 +153,16 @@ public abstract class  Player {
         return new MoveJump(jumpBoard,move,MoveStatus.DONE);
     }
 
+    public Collection<Move> calculateLegalPieceMoves(final int piecePosition){
+        List<Move> listOfPieceMoves = new ArrayList<>();
+        for (final Move move : getLegalMoves()) {
+            if (move.getCurrentCoordinate() == piecePosition){
+                listOfPieceMoves.add(move);
+            }
+        }
+        return listOfPieceMoves;
+    }
+
     /**
      * Method that returns all player's Active Pieces
      * @return Collection of Active Pieces

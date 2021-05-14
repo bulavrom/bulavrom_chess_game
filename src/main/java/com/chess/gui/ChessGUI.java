@@ -259,7 +259,7 @@ public class ChessGUI {
 
         private void highlightLegalMoves(final Board board) {
             if (legalMovesHighlighted) {
-                for (final Move move : pieceLegalMoves(board)) {
+               for (final Move move : pieceLegalMoves(board)) {
                     MoveJump moveJump = board.getCurrentPlayer().makeMove(move);
                     if (moveJump.getMoveStatus().isDone()) {
                         if (move.getDestinationCoordinate() == this.tileId) {
@@ -276,7 +276,8 @@ public class ChessGUI {
 
         private Collection<Move> pieceLegalMoves(final Board board) {
             if (movedPiece != null && movedPiece.getPieceColour() == board.getCurrentPlayer().getColour()) {
-                return movedPiece.calculateLegalMoves(board);
+//                return movedPiece.calculateLegalMoves(board);
+                  return board.getCurrentPlayer().calculateLegalPieceMoves(movedPiece.getPiecePosition());
             }
             return Collections.emptyList();
         }
