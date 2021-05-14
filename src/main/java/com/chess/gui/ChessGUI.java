@@ -36,6 +36,7 @@ public class ChessGUI {
     private BoardDirection boardDirection;
     private final String pieceImagePath = "icons/pieces/";
     private boolean isHumanMode;
+    JDialog gameOver;
 
 
     /**
@@ -61,6 +62,21 @@ public class ChessGUI {
         final JMenu fileMenu = new JMenu("File");
         final JMenu boardMenu = new JMenu("Board");
         final JMenu settingsMenu = new JMenu();
+
+        this.gameOver = new JDialog(this.chessFrame, "Game Over!",Dialog.ModalityType.DOCUMENT_MODAL);
+        JLabel message = new JLabel("Game over. The winner is " + chessBoard.getCurrentPlayer().getColour().getPlayerNameColour() + " player");
+        gameOver.setLayout(new GridLayout(2,1));
+        gameOver.add(message);
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        gameOver.add(exitButton);
+        gameOver.setSize(new Dimension(400,200));
+        gameOver.setLocationRelativeTo(null);
 
         final JMenuItem openPGN = new JMenuItem("Open PGN file");
         openPGN.addActionListener(new ActionListener() {
@@ -99,7 +115,6 @@ public class ChessGUI {
 
         this.chessFrame.setJMenuBar(chessMenuBar);
 
-
         this.chessFrame.setSize(new Dimension(1000, 800));
         this.chessFrame.setResizable(false);
         this.chessFrame.setVisible(true);
@@ -135,11 +150,11 @@ public class ChessGUI {
                 add(tilePanel);
             }
             boardDirection = BoardDirection.NORMAL;
-            if (!settingsPanel.isHumanGame() && Board.getCurrentPlayer().getColour().isBlack()){
+            if (!settingsPanel.isHumanGame() && Board.getCurrentPlayer().getColour().isBlack()) {
                 List<Move> randomPlayerLegalMoves = new ArrayList<>(Board.getCurrentPlayer().getLegalMoves());
                 Move randomMove = randomPlayerLegalMoves.get(new Random().nextInt(randomPlayerLegalMoves.size()));
                 final MoveJump moveJump = Board.getCurrentPlayer().makeMove(randomMove);
-                if (moveJump.getMoveStatus().isDone()){
+                if (moveJump.getMoveStatus().isDone()) {
                     chessBoard = moveJump.getBoard();
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
@@ -147,11 +162,28 @@ public class ChessGUI {
                             drawBoard(chessBoard);
                         }
                     });
+                } else if (moveJump.getMoveStatus().isCheckMove()) {
+                    for (final Move move : randomPlayerLegalMoves) {
+                        final MoveJump moveJumpToPreventCheck = Board.getCurrentPlayer().makeMove(move);
+                        if (moveJumpToPreventCheck.getMoveStatus().isDone()) {
+                            chessBoard = moveJumpToPreventCheck.getBoard();
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    drawBoard(chessBoard);
+                                }
+                            });
+                        }
+
+                    }
                 }
                 validate();
             }
             validate();
             repaint();
+            if (chessBoard.getCurrentPlayer().isInCheckMate() || chessBoard.getCurrentPlayer().isInStaleMate()){
+                gameOver.setVisible(true);
+            }
         }
 
 
@@ -195,7 +227,7 @@ public class ChessGUI {
                         movedPiece = null;
 
 
-                    } else if (isLeftMouseButton(e) ) {
+                    } else if (isLeftMouseButton(e)) {
                         //The first click
                         if (sourceTile == null) {
                             sourceTile = chessBoard.getTile(tileId);
@@ -207,19 +239,21 @@ public class ChessGUI {
                             destinationTile = chessBoard.getTile(tileId);
                             final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
                             final MoveJump moveJump = chessBoard.getCurrentPlayer().makeMove(move);
-                            if (moveJump.getMoveStatus().isDone() || moveJump.getMoveStatus().isCheckMove()) {
+                            if (moveJump.getMoveStatus().isDone()) {
                                 chessBoard = moveJump.getBoard();
                             }
                             sourceTile = null;
                             destinationTile = null;
                             movedPiece = null;
                         }
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                boardPanel.drawBoard(chessBoard);
-                            }
-                        });
+                        if (settingsPanel.isStarted()) {
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boardPanel.drawBoard(chessBoard);
+                                }
+                            });
+                        }
                     }
                 }
 
@@ -355,6 +389,9 @@ public class ChessGUI {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     isStarted = true;
+                    humanModePlay.setEnabled(false);
+                    computerModePlay.setEnabled(false);
+                    startButton.setEnabled(false);
                 }
             });
             add(settings);
