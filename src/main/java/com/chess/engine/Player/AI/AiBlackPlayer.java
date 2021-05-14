@@ -11,4 +11,6 @@ public class AiBlackPlayer extends BlackPlayer {
     public AiBlackPlayer(Board board, Collection<Move> blackLegalMoves, Collection<Move> whiteLegalMoves) {
         super(board, blackLegalMoves, whiteLegalMoves);
     }
+
+
 }

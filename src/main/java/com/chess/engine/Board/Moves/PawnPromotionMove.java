@@ -28,7 +28,7 @@ public class PawnPromotionMove extends Move {
             builder.setPiece(piece);
         }
         builder.setPiece(this.promotedPawn.getPromotionPiece().movePiece(this));
-        builder.setColourThatMovesNext(pawnPromotionMove.getPieceToMove().getPieceColour());
+        builder.setColourThatMovesNext(this.board.getCurrentPlayer().getOpponentPlayer().getColour());
         return builder.build();
     }
 

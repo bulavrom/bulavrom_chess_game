@@ -16,9 +16,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
 
 import static com.chess.engine.Board.Board.*;
@@ -33,9 +31,11 @@ public class ChessGUI {
     private Tile destinationTile;
     private Piece movedPiece;
     private final ChessBoardPanel chessBoardPanel;
+    private SettingsPanel settingsPanel;
     private boolean legalMovesHighlighted;
     private BoardDirection boardDirection;
     private final String pieceImagePath = "icons/pieces/";
+    private boolean isHumanMode;
 
 
     /**
@@ -43,13 +43,18 @@ public class ChessGUI {
      */
     public ChessGUI() {
         this.chessFrame = new JFrame("Chess Game");
+        this.settingsPanel = new SettingsPanel();
         this.chessFrame.setLayout(new BorderLayout());
         this.chessBoard = createDefaultBoard();
+
+
         this.chessBoardPanel = new ChessBoardPanel();
         this.legalMovesHighlighted = false;
         this.sourceTile = null;
         this.destinationTile = null;
         this.boardDirection = BoardDirection.NORMAL;
+
+        this.isHumanMode = settingsPanel.isHumanGame();
 
 
         final JMenuBar chessMenuBar = new JMenuBar();
@@ -90,11 +95,12 @@ public class ChessGUI {
 
 
         this.chessFrame.add(this.chessBoardPanel, BorderLayout.CENTER);
+        this.chessFrame.add(this.settingsPanel, BorderLayout.EAST);
 
         this.chessFrame.setJMenuBar(chessMenuBar);
 
 
-        this.chessFrame.setSize(new Dimension(800, 800));
+        this.chessFrame.setSize(new Dimension(1000, 800));
         this.chessFrame.setResizable(false);
         this.chessFrame.setVisible(true);
         this.chessFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -117,17 +123,33 @@ public class ChessGUI {
                 this.tilesOnBoard.add(chessTilePanel);
                 add(chessTilePanel);
             }
-            setPreferredSize(new Dimension(500, 500));
+            //   setPreferredSize(new Dimension(500, 500));
+            setPreferredSize(new Dimension(800, 800));
             validate();
         }
 
-        public void drawBoard(final Board chessBoard) {
+        public void drawBoard(Board Board) {
             removeAll();
             for (final ChessTilePanel tilePanel : boardDirection.reverse(tilesOnBoard)) {
-                tilePanel.drawTile(chessBoard);
+                tilePanel.drawTile(Board);
                 add(tilePanel);
             }
             boardDirection = BoardDirection.NORMAL;
+            if (!settingsPanel.isHumanGame() && Board.getCurrentPlayer().getColour().isBlack()){
+                List<Move> randomPlayerLegalMoves = new ArrayList<>(Board.getCurrentPlayer().getLegalMoves());
+                Move randomMove = randomPlayerLegalMoves.get(new Random().nextInt(randomPlayerLegalMoves.size()));
+                final MoveJump moveJump = Board.getCurrentPlayer().makeMove(randomMove);
+                if (moveJump.getMoveStatus().isDone()){
+                    chessBoard = moveJump.getBoard();
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawBoard(chessBoard);
+                        }
+                    });
+                }
+                validate();
+            }
             validate();
             repaint();
         }
@@ -159,18 +181,21 @@ public class ChessGUI {
                 setBackground(Color.decode("#B57912"));
             }
             addPieceImage(chessBoard);
+
             addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     //Right click to cancel
                     if (isRightMouseButton(e)) {
                         //delete after debug
+                        System.out.println("Human mode is " + settingsPanel.isHumanGame());
                         //System.out.println(chessBoard.getTile(tileId).getPiece().getPieceColour().toString() + chessBoard.getTile(tileId).getPiece().getPieceType().toString());
                         sourceTile = null;
                         destinationTile = null;
                         movedPiece = null;
 
-                    } else if (isLeftMouseButton(e)) {
+
+                    } else if (isLeftMouseButton(e) ) {
                         //The first click
                         if (sourceTile == null) {
                             sourceTile = chessBoard.getTile(tileId);
@@ -182,7 +207,7 @@ public class ChessGUI {
                             destinationTile = chessBoard.getTile(tileId);
                             final Move move = Move.MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
                             final MoveJump moveJump = chessBoard.getCurrentPlayer().makeMove(move);
-                            if (moveJump.getMoveStatus().isDone()) {
+                            if (moveJump.getMoveStatus().isDone() || moveJump.getMoveStatus().isCheckMove()) {
                                 chessBoard = moveJump.getBoard();
                             }
                             sourceTile = null;
@@ -197,6 +222,7 @@ public class ChessGUI {
                         });
                     }
                 }
+
 
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -218,6 +244,7 @@ public class ChessGUI {
 
                 }
             });
+
             validate();
         }
 
@@ -259,7 +286,7 @@ public class ChessGUI {
 
         private void highlightLegalMoves(final Board board) {
             if (legalMovesHighlighted) {
-               for (final Move move : pieceLegalMoves(board)) {
+                for (final Move move : pieceLegalMoves(board)) {
                     MoveJump moveJump = board.getCurrentPlayer().makeMove(move);
                     if (moveJump.getMoveStatus().isDone()) {
                         if (move.getDestinationCoordinate() == this.tileId) {
@@ -277,10 +304,72 @@ public class ChessGUI {
         private Collection<Move> pieceLegalMoves(final Board board) {
             if (movedPiece != null && movedPiece.getPieceColour() == board.getCurrentPlayer().getColour()) {
 //                return movedPiece.calculateLegalMoves(board);
-                  return board.getCurrentPlayer().calculateLegalPieceMoves(movedPiece.getPiecePosition());
+                return board.getCurrentPlayer().calculateLegalPieceMoves(movedPiece.getPiecePosition());
             }
             return Collections.emptyList();
         }
 
+    }
+
+    private static class SettingsPanel extends JPanel {
+
+        boolean isHumanGame;
+        boolean isStarted = false;
+
+        public SettingsPanel() {
+            super(new GridLayout(5, 1));
+
+            JLabel settings = new JLabel("Settings");
+            settings.setFont(new Font("Verdana", Font.PLAIN, 30));
+            settings.setHorizontalAlignment(JLabel.CENTER);
+            settings.setVerticalAlignment(JLabel.CENTER);
+            this.isHumanGame = true;
+
+            JPanel chooseModePanel = new JPanel(new GridLayout(2, 1));
+            JRadioButton computerModePlay = new JRadioButton("Computer vs Human Mode", false);
+            computerModePlay.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    isHumanGame = false;
+                }
+            });
+            JRadioButton humanModePlay = new JRadioButton("Human vs Human", true);
+            humanModePlay.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    isHumanGame = true;
+                }
+            });
+
+            ButtonGroup chooseModeButtons = new ButtonGroup();
+            chooseModeButtons.add(computerModePlay);
+            chooseModeButtons.add(humanModePlay);
+
+            chooseModePanel.add(computerModePlay);
+            chooseModePanel.add(humanModePlay);
+
+            chooseModePanel.setSize(new Dimension(200, 100));
+
+            JButton startButton = new JButton("START");
+            startButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    isStarted = true;
+                }
+            });
+            add(settings);
+            add(chooseModePanel);
+            add(startButton);
+            setPreferredSize(new Dimension(200, 800));
+            validate();
+        }
+
+        public boolean isHumanGame() {
+            return this.isHumanGame;
+        }
+
+        public boolean isStarted() {
+            return this.isStarted;
+        }
     }
 }
