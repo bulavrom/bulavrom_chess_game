@@ -347,11 +347,15 @@ public class ChessGUI {
 
     private static class SettingsPanel extends JPanel {
 
+        JPanel settingGamePanel;
         boolean isHumanGame;
         boolean isStarted = false;
+        ChessTimerPanel chessTimerPanel;
 
         public SettingsPanel() {
-            super(new GridLayout(5, 1));
+            super(new GridLayout(3, 1));
+
+            this.settingGamePanel = new JPanel(new GridLayout(3,1));
 
             JLabel settings = new JLabel("Settings");
             settings.setFont(new Font("Verdana", Font.PLAIN, 30));
@@ -367,6 +371,7 @@ public class ChessGUI {
                     isHumanGame = false;
                 }
             });
+
             JRadioButton humanModePlay = new JRadioButton("Human vs Human", true);
             humanModePlay.addActionListener(new ActionListener() {
                 @Override
@@ -394,9 +399,15 @@ public class ChessGUI {
                     startButton.setEnabled(false);
                 }
             });
-            add(settings);
-            add(chooseModePanel);
-            add(startButton);
+
+            this.chessTimerPanel = new ChessTimerPanel();
+
+
+            this.settingGamePanel.add(settings);
+            this.settingGamePanel.add(chooseModePanel);
+            this.settingGamePanel.add(startButton);
+            this.add(settingGamePanel);
+            this.add(this.chessTimerPanel);
             setPreferredSize(new Dimension(200, 800));
             validate();
         }
@@ -407,6 +418,22 @@ public class ChessGUI {
 
         public boolean isStarted() {
             return this.isStarted;
+        }
+    }
+
+    private static class ChessTimerPanel extends JPanel{
+        public ChessTimerPanel(){
+            super(new GridLayout(2,1));
+
+            JLabel timerLabel = new JLabel("Timer");
+            timerLabel.setFont(new Font("Verdana",Font.PLAIN, 30));
+            timerLabel.setHorizontalAlignment(JLabel.CENTER);
+            timerLabel.setVerticalAlignment(JLabel.CENTER);
+
+            add(timerLabel);
+
+            validate();
+            this.setVisible(true);
         }
     }
 }
