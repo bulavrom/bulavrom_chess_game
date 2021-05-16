@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
+/**
+ * Class that represents chess White Player
+ */
 public class WhitePlayer extends Player{
     public WhitePlayer(final Board board, final Collection<Move> blackLegalMoves,final Collection<Move> whiteLegalMoves) {
         super(board, whiteLegalMoves, blackLegalMoves);

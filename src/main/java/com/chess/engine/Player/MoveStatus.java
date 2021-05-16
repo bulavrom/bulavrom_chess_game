@@ -35,6 +35,7 @@ public enum MoveStatus {
         }
     };
 
+
     public abstract boolean isDone();
     public abstract boolean isCheckMove();
 }

@@ -5,7 +5,7 @@ import com.chess.engine.Board.Board.Builder;
 import com.chess.engine.Pieces.Piece;
 
 /**
- *  Class for all moves
+ *  Abstract class for all moves
  */
 public abstract class Move {
 
@@ -15,7 +15,12 @@ public abstract class Move {
     final boolean isFirstMove;
 
 
-
+    /**
+     * Default constructor for move
+     * @param board board
+     * @param pieceToMove piece to move
+     * @param destinationCoordinate destination coordinate
+     */
     public Move(final Board board, final Piece pieceToMove, final int destinationCoordinate){
         this.board = board;
         this.pieceToMove = pieceToMove;
@@ -30,22 +35,42 @@ public abstract class Move {
         this.isFirstMove = false;
     }
 
+    /**
+     * Getter for a destination coordinate
+     * @return destination coordinate
+     */
     public int getDestinationCoordinate(){
         return this.destinationCoordinate;
     }
 
+    /**
+     * Method that detect if it is  attack move
+     * @return true if attack move
+     */
     public boolean isAttackMove(){
         return false;
     }
 
+    /**
+     * Method that detect if it is castling move
+     * @return true if move is castle
+     */
     public boolean isCastlingMove(){
         return false;
     }
 
+    /**
+     * Getter for an attacked piece
+     * @return null (attacked piece can be obly in attack move class)
+     */
     public Piece getAttackedPiece(){
         return null;
     }
 
+    /**
+     * Getter for a board
+     * @return board
+     */
     public Board getBoard(){
         return this.board;
     }
@@ -78,10 +103,18 @@ public abstract class Move {
     }
 
 
+    /**
+     * Getter for a piece to move
+     * @return piece to move
+     */
     public Piece getPieceToMove(){
         return this.pieceToMove;
     }
 
+    /**
+     * Methode that executes the move
+     * @return new board after move
+     */
     public Board execute(){
         final Builder builder = new Builder();
 
@@ -100,18 +133,35 @@ public abstract class Move {
         return builder.build();
     }
 
+    /**
+     * Getter for a current piece coordinate
+     * @return start piece position
+     */
     public int getCurrentCoordinate(){
         return this.pieceToMove.getPiecePosition();
     }
 
+    /**
+     * Class that is used to create a new move
+     */
     public static class MoveFactory {
 
         public static final Move INVALID_MOVE = new InvaildMove();
 
+        /**
+         * This class isnt instatible
+         */
         private MoveFactory(){
             throw new RuntimeException("Not instantiable");
         }
 
+        /**
+         * Method that creates a move for a given board , current piece coordinate and destination coordinate
+         * @param board board
+         * @param currentCoordinate current piece coordinate
+         * @param destinationCoordinate destination coordinate
+         * @return created move if it is legal move, else returns invalid move
+         */
         public static Move createMove(final Board board, final int currentCoordinate,final int destinationCoordinate){
             for (final Move move: board.getAllLegalMoves()) {
                 if (move.getCurrentCoordinate() == currentCoordinate &&

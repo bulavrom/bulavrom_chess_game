@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class ChessGUI {
     private BoardDirection boardDirection;
     private final String pieceImagePath = "icons/pieces/";
     private boolean isHumanMode;
+    private PrintWriter printWriter;
     JDialog gameOver;
 
 
@@ -49,6 +51,11 @@ public class ChessGUI {
         this.settingsPanel = new SettingsPanel();
         this.chessFrame.setLayout(new BorderLayout());
         this.chessBoard = createDefaultBoard();
+        try {
+            this.printWriter = new PrintWriter("game.pgn","UTF-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
         this.chessBoardPanel = new ChessBoardPanel();
@@ -62,7 +69,7 @@ public class ChessGUI {
 
 
         final JMenuBar chessMenuBar = new JMenuBar();
-        final JMenu fileMenu = new JMenu("File");
+//        final JMenu fileMenu = new JMenu("File");
         final JMenu boardMenu = new JMenu("Board");
 
         this.gameOver = new JDialog(this.chessFrame, "Game Over!", Dialog.ModalityType.DOCUMENT_MODAL);
@@ -80,13 +87,6 @@ public class ChessGUI {
         gameOver.setSize(new Dimension(400, 200));
         gameOver.setLocationRelativeTo(null);
 
-        final JMenuItem openPGN = new JMenuItem("Open PGN file");
-        openPGN.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         final JMenuItem flipBoard = new JMenuItem("Change direction");
         flipBoard.addActionListener(new ActionListener() {
             @Override
@@ -107,8 +107,7 @@ public class ChessGUI {
         });
 
         boardMenu.add(highlightLegalMovesCheckBox);
-        fileMenu.add(openPGN);
-        chessMenuBar.add(fileMenu);
+
         chessMenuBar.add(boardMenu);
 
 
@@ -168,6 +167,12 @@ public class ChessGUI {
                 final MoveJump moveJump = Board.getCurrentPlayer().makeMove(randomMove);
                 if (moveJump.getMoveStatus().isDone()) {
                     chessBoard = moveJump.getBoard();
+                    printWriter.write(randomMove.toString() + " ");
+                    if (chessBoard.getCurrentPlayer().isInCheck()){
+                        printWriter.write("+ ");
+                    }else {
+                        printWriter.write(" ");
+                    }
                     // chess timer controls for a random player
                     if (chessBoard.getCurrentPlayer().getColour().isBlack()) {
                         settingsPanel.pauseWhitePlayerTimer();
@@ -187,6 +192,12 @@ public class ChessGUI {
                         final MoveJump moveJumpToPreventCheck = Board.getCurrentPlayer().makeMove(move);
                         if (moveJumpToPreventCheck.getMoveStatus().isDone()) {
                             chessBoard = moveJumpToPreventCheck.getBoard();
+                            printWriter.write(move.toString());
+                            if (chessBoard.getCurrentPlayer().isInCheck()){
+                                printWriter.write("+ ");
+                            }else {
+                                printWriter.write(" ");
+                            }
                             // chess timer controls for a random player
                             if (chessBoard.getCurrentPlayer().getColour().isBlack()) {
                                 settingsPanel.pauseWhitePlayerTimer();
@@ -213,6 +224,13 @@ public class ChessGUI {
             repaint();
             // end of game
             if (chessBoard.getCurrentPlayer().isInCheckMate() || chessBoard.getCurrentPlayer().isInStaleMate()) {
+                if (chessBoard.getCurrentPlayer().getColour().isWhite()){
+                    printWriter.write("0-1");
+                    printWriter.close();
+                }else {
+                    printWriter.write("1-0");
+                    printWriter.close();
+                }
                 settingsPanel.stopWhitePlayerTimer();
                 settingsPanel.stopBlackPlayerTimer();
                 gameOver.setVisible(true);
@@ -271,6 +289,12 @@ public class ChessGUI {
                             final MoveJump moveJump = chessBoard.getCurrentPlayer().makeMove(move);
                             if (moveJump.getMoveStatus().isDone()) {
                                 chessBoard = moveJump.getBoard();
+                                printWriter.write(move.toString());
+                                if (chessBoard.getCurrentPlayer().isInCheck()){
+                                    printWriter.write("+ ");
+                                }else {
+                                    printWriter.write(" ");
+                                }
                                 // chess timer controls
                                 if (chessBoard.getCurrentPlayer().getColour().isBlack()) {
                                     if (isFirstChange) {
@@ -435,9 +459,9 @@ public class ChessGUI {
          * Default constructor for Setting Panel
          */
         public SettingsPanel() {
-            super(new GridLayout(5, 1));
+            super(new GridLayout(2, 1));
 
-            JPanel settingGamePanel = new JPanel(new GridLayout(3, 1));
+            JPanel settingGamePanel = new JPanel(new GridLayout(4, 1));
 
             JLabel settings = new JLabel("Settings");
             settings.setFont(new Font("Verdana", Font.PLAIN, 30));
@@ -486,11 +510,13 @@ public class ChessGUI {
             this.chessTimerPanel = new ChessTimerPanel();
 
 
+
             settingGamePanel.add(settings);
             settingGamePanel.add(chooseModePanel);
             settingGamePanel.add(startButton);
+            settingGamePanel.add(this.chessTimerPanel);
             this.add(settingGamePanel);
-            this.add(this.chessTimerPanel);
+//            this.add(this.chessTimerPanel);
             setPreferredSize(new Dimension(200, 800));
             validate();
         }

@@ -223,6 +223,10 @@ public abstract class Piece {
          */
         public abstract boolean isKing();
 
+        /**
+         * Method that returns true if the Piece Type is Rook
+         * @return true if the PieceType is Rook
+         */
         public abstract boolean isRook();
     }
 }

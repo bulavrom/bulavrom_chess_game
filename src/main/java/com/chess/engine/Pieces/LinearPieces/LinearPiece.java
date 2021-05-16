@@ -1,7 +1,6 @@
 package com.chess.engine.Pieces.LinearPieces;
 
 import com.chess.engine.Board.*;
-import com.chess.engine.Board.Moves.AttackMove;
 import com.chess.engine.Board.Moves.Move;
 import com.chess.engine.Board.Moves.StandartAttackMove;
 import com.chess.engine.Board.Moves.StandartMove;

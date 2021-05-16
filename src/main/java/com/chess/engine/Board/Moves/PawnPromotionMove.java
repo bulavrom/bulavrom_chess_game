@@ -4,11 +4,18 @@ import com.chess.engine.Board.Board;
 import com.chess.engine.Pieces.Pawn;
 import com.chess.engine.Pieces.Piece;
 
+/**
+ * Class that represent a pawn promotion move
+ */
 public class PawnPromotionMove extends Move {
 
     final Move pawnPromotionMove;
     final Pawn promotedPawn;
 
+    /**
+     * Default constructor for a Pawn Promotion Move
+     * @param pawnPromotionMove promotion move
+     */
     public PawnPromotionMove(final Move pawnPromotionMove) {
         super(pawnPromotionMove.getBoard(), pawnPromotionMove.getPieceToMove(), pawnPromotionMove.getDestinationCoordinate());
         this.pawnPromotionMove = pawnPromotionMove;
@@ -50,5 +57,11 @@ public class PawnPromotionMove extends Move {
     @Override
     public boolean equals(Object other){
         return this == other || other instanceof PawnPromotionMove && super.equals(other);
+    }
+
+    @Override
+    public String toString(){
+        return board.getPositionAtCoordinate(this.pieceToMove.getPiecePosition()) + "-" +
+                board.getPositionAtCoordinate(this.destinationCoordinate) +  "=" + "Q";
     }
 }

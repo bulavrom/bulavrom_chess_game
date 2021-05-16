@@ -7,7 +7,17 @@ import com.chess.engine.Pieces.Piece;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * Class that represent a pawn jump move
+ */
 public class PawnJumpMove extends Move{
+
+    /**
+     * Default constructor for a pawn jump move
+     * @param board actual board
+     * @param pieceToMove piece to move
+     * @param destinationCoordinate destination coordinate
+     */
     public PawnJumpMove(Board board, Piece pieceToMove, int destinationCoordinate) {
         super(board, pieceToMove, destinationCoordinate);
     }
@@ -28,5 +38,10 @@ public class PawnJumpMove extends Move{
         builder.setEnPassantPawn(pawnToJumpMove);
         builder.setColourThatMovesNext(this.board.getCurrentPlayer().getOpponentPlayer().getColour());
         return builder.build();
+    }
+
+    @Override
+    public String toString(){
+        return board.getPositionAtCoordinate(this.destinationCoordinate);
     }
 }

@@ -40,4 +40,5 @@ public class AttackMove extends Move {
     public Piece getAttackedPiece(){
         return this.attackedPiece;
     }
+
 }

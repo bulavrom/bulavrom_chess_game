@@ -16,7 +16,7 @@ public abstract class Tile {
 
     /**
      * Method creates all empty tiles
-     * @return
+     * @return Map of empty tiles
      */
     private static Map<Integer, EmptyTile> createEmptyTiles(){
         final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
@@ -37,14 +37,18 @@ public abstract class Tile {
     }
 
     /**
-     * Standart constructor
-     * @param tileCoordinate
+     * Default tile constructor
+     * @param tileCoordinate 1 dimensional tile coordinate
      */
     Tile(int tileCoordinate){
         this.tileCoordinate = tileCoordinate;
     }
 
 
+    /**
+     * Getter for a tile coordinate
+     * @return tile coordinate
+     */
     public int getTileCoordinate(){
         return this.tileCoordinate;
     }

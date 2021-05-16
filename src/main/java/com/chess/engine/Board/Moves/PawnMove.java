@@ -12,4 +12,9 @@ public class PawnMove extends Move{
     public boolean equals(final Object other){
         return this == other || other instanceof PawnMove && super.equals(other);
     }
+
+    @Override
+    public String toString(){
+        return board.getPositionAtCoordinate(this.destinationCoordinate);
+    }
 }

@@ -71,10 +71,35 @@ public enum Colour {
         }
     };
 
+    /**
+     * Method that controls if Colour is Black
+     * @return true if black
+     */
     public abstract boolean isBlack();
+    /**
+     * Method that controls if Colour is White
+     * @return true if white
+     */
     public abstract boolean isWhite();
+
+    /**
+     * Return colour in string(use to write colour of player)
+     * @return colour (white or black)
+     */
     public abstract String getPlayerNameColour();
 
+    /**
+     * Method that controls if Piece is on Eight Rank(use for Pawn Promotion)
+     * @param piecePosition piece position
+     * @return true if piece is on eight rank
+     */
     public abstract boolean isPieceOnEightRank(final int piecePosition);
+
+    /**
+     * Method that chooses player
+     * @param whitePlayer white player
+     * @param blackPlayer black player
+     * @return black player if black, white player if white
+     */
     public abstract Player choosePlayer(final WhitePlayer whitePlayer,final BlackPlayer blackPlayer);
 }

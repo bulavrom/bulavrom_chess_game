@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Abstract class that represents chess player
+ */
 public abstract class  Player {
 
     protected final Board board;
