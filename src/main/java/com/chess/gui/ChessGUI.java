@@ -69,7 +69,6 @@ public class ChessGUI {
 
 
         final JMenuBar chessMenuBar = new JMenuBar();
-//        final JMenu fileMenu = new JMenu("File");
         final JMenu boardMenu = new JMenu("Board");
 
         this.gameOver = new JDialog(this.chessFrame, "Game Over!", Dialog.ModalityType.DOCUMENT_MODAL);
@@ -415,7 +414,7 @@ public class ChessGUI {
                     if (moveJump.getMoveStatus().isDone()) {
                         if (move.getDestinationCoordinate() == this.tileId) {
                             try {
-                                if (move.isAttackMove()) {
+                                if (move.isAttackMove() && !board.getEnPassantPawn().equals(move.getAttackedPiece())) {
                                     removeAll();
                                     add(new JLabel(new ImageIcon(ImageIO.read(new File("icons/pieces/" +
                                             move.getAttackedPiece().getPieceColour().toString() +
