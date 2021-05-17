@@ -169,7 +169,9 @@ public class ChessGUI {
                     printWriter.write(randomMove.toString() + " ");
                     if (chessBoard.getCurrentPlayer().isInCheck()){
                         printWriter.write("+ ");
-                    }else {
+                    }else if(chessBoard.getCurrentPlayer().isInCheckMate() || chessBoard.getCurrentPlayer().isInStaleMate()){
+                        printWriter.write("#");
+                    } else {
                         printWriter.write(" ");
                     }
                     // chess timer controls for a random player
@@ -194,7 +196,10 @@ public class ChessGUI {
                             printWriter.write(move.toString());
                             if (chessBoard.getCurrentPlayer().isInCheck()){
                                 printWriter.write("+ ");
-                            }else {
+                            }else if (chessBoard.getCurrentPlayer().isInCheckMate() || chessBoard.getCurrentPlayer().isInStaleMate()){
+                                printWriter.write("#");
+                            }
+                            else {
                                 printWriter.write(" ");
                             }
                             // chess timer controls for a random player
@@ -291,7 +296,9 @@ public class ChessGUI {
                                 printWriter.write(move.toString());
                                 if (chessBoard.getCurrentPlayer().isInCheck()){
                                     printWriter.write("+ ");
-                                }else {
+                                } else if (chessBoard.getCurrentPlayer().isInCheckMate() || chessBoard.getCurrentPlayer().isInStaleMate()){
+                                    printWriter.write("#");
+                                } else {
                                     printWriter.write(" ");
                                 }
                                 // chess timer controls
@@ -414,7 +421,7 @@ public class ChessGUI {
                     if (moveJump.getMoveStatus().isDone()) {
                         if (move.getDestinationCoordinate() == this.tileId) {
                             try {
-                                if (move.isAttackMove() && !board.getEnPassantPawn().equals(move.getAttackedPiece())) {
+                                if (move.isAttackMove() && !move.isEnPassantAttackMove()) {
                                     removeAll();
                                     add(new JLabel(new ImageIcon(ImageIO.read(new File("icons/pieces/" +
                                             move.getAttackedPiece().getPieceColour().toString() +

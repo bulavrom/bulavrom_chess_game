@@ -52,6 +52,14 @@ public abstract class Move {
     }
 
     /**
+     * Method that detect enPassantMove
+     * @return true if En Passant Move
+     */
+    public boolean isEnPassantAttackMove(){
+        return false;
+    }
+
+    /**
      * Method that detect if it is castling move
      * @return true if move is castle
      */
